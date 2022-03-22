@@ -1,12 +1,7 @@
 import React from "react";
 import { Spinner, Flex, Button } from "@chakra-ui/core";
 
-export default function LoadMoreButton({
-  loadMore,
-  data,
-  pageSize,
-  isLoadingMore,
-}) {
+export function LoadMoreButton({ loadMore, data, pageSize, isLoadingMore }) {
   const isReachingEnd =
     data?.[0]?.length === 0 ||
     (data && data[data.length - 1]?.length < pageSize);

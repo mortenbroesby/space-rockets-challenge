@@ -7,7 +7,7 @@ import {
   AlertDescription,
 } from "@chakra-ui/core";
 
-export default function Error() {
+export function Error() {
   return (
     <Flex alignItems="center" justifyContent="center" width="100%">
       <Alert

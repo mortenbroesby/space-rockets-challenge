@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 
-export default function Breadcrumbs({ items }) {
+export function Breadcrumbs({ items }) {
   return (
     <Breadcrumb
       m="6"
