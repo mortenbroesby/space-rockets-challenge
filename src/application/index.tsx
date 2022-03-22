@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/core";
 
 import Home from "../domains/home";
-import Launches from "../components/launches";
+import Launches from "../domains/launches";
 import Launch from "../components/launch";
 import LaunchPads from "../components/launch-pads";
 import LaunchPad from "../components/launch-pad";
