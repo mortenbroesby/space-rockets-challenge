@@ -2,16 +2,17 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/core";
 
-import Launches from "./launches";
-import Launch from "./launch";
-import Home from "./home";
-import LaunchPads from "./launch-pads";
-import LaunchPad from "./launch-pad";
+import Launches from "../components/launches";
+import Launch from "../components/launch";
+import Home from "../components/home";
+import LaunchPads from "../components/launch-pads";
+import LaunchPad from "../components/launch-pad";
 
 export default function App() {
   return (
     <div>
       <NavBar />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />
