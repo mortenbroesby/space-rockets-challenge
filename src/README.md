@@ -1,3 +1,11 @@
+## 📡 Hosting
+
+I've decided on using Vercel to host my implementation of the Space Rocket challenge.
+
+At the time of writing, you can see it running on the following URL:
+
+https://space-rockets-challenge-pleo.vercel.app/
+
 ## ⚡️ Typescript
 
 I took the liberty of adding Typescript to the project.
