@@ -8,33 +8,46 @@ import { formatDate } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LoadMoreButton } from "../../components/LoadMoreButton";
+import { noop } from "../../utils/misc";
+import { Launches } from "./types/launches";
 
 const PAGE_SIZE = 12;
 
+interface LaunchesBaseProps {
+  launch: Launches;
+}
+
 export function LaunchesPage() {
-  const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
-    "/launches/past",
-    {
-      limit: PAGE_SIZE,
-      order: "desc",
-      sort: "launch_date_utc",
-    }
-  );
-  console.log(data, error);
+  const fetchOptions = {
+    limit: PAGE_SIZE,
+    order: "desc",
+    sort: "launch_date_utc",
+  };
+
+  const {
+    data,
+    error,
+    isValidating,
+    setSize = noop,
+    size = 0,
+  } = useSpaceXPaginated("/launches/past", fetchOptions);
+
+  const safeData: Launches[] = Array.isArray(data) ? data : [];
+  const gridContent = safeData
+    .flat()
+    .map((launch) => <LaunchItem launch={launch} key={launch.flight_number} />);
+
   return (
     <div>
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
       />
+
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
-        {data &&
-          data
-            .flat()
-            .map((launch) => (
-              <LaunchItem launch={launch} key={launch.flight_number} />
-            ))}
+        {gridContent}
       </SimpleGrid>
+
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
         data={data}
@@ -45,7 +58,7 @@ export function LaunchesPage() {
   );
 }
 
-export function LaunchItem({ launch }) {
+export function LaunchItem({ launch }: LaunchesBaseProps) {
   return (
     <Box
       as={Link}
@@ -110,6 +123,7 @@ export function LaunchItem({ launch }) {
         >
           {launch.mission_name}
         </Box>
+
         <Flex>
           <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
           <Text color="gray.500" ml="2" fontSize="sm">

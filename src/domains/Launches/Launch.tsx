@@ -21,12 +21,16 @@ import {
   StatGroup,
 } from "@chakra-ui/react";
 
-import { Launch } from "./types";
+import { Launch } from "./types/launch";
 
 import { useSpaceX } from "../../utils";
 import { formatDateTime } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
+
+interface LaunchBaseProps {
+  launch: Launch;
+}
 
 export function LaunchPage() {
   let { launchId } = useParams();
@@ -67,11 +71,7 @@ export function LaunchPage() {
   );
 }
 
-interface LaunchProps {
-  launch: Launch;
-}
-
-function Header({ launch }: LaunchProps) {
+function Header({ launch }: LaunchBaseProps) {
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -123,7 +123,7 @@ function Header({ launch }: LaunchProps) {
   );
 }
 
-function TimeAndLocation({ launch }: LaunchProps) {
+function TimeAndLocation({ launch }: LaunchBaseProps) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -159,7 +159,7 @@ function TimeAndLocation({ launch }: LaunchProps) {
   );
 }
 
-function RocketInfo({ launch }: LaunchProps) {
+function RocketInfo({ launch }: LaunchBaseProps) {
   const cores = launch.rocket.first_stage.cores;
 
   return (
@@ -223,7 +223,7 @@ function RocketInfo({ launch }: LaunchProps) {
   );
 }
 
-function Video({ launch }: LaunchProps) {
+function Video({ launch }: LaunchBaseProps) {
   return (
     <AspectRatio maxH="400px" ratio={1.7}>
       <Box
