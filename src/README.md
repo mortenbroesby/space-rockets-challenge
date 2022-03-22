@@ -1,14 +1,14 @@
-# Motivation
+# Introduction
 
-This document outlines a range of choices I have made while working on this challenge and my motivation behind them.
+This document outlines a range of choices I have made while working on this challenge, and my motivation behind them.
 
-**Note**: I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
+I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
 ---
 
 ## 📡 Hosting
 
-I've decided on using Vercel to host my implementation of the Space Rocket challenge.
+I've decided on using Vercel to host my implementation of the Space Rocket challenge. Easy to use, CI built-in.
 
 At the time of writing, you can see it running on the following URL:
 
