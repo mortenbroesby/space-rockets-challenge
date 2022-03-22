@@ -10,7 +10,7 @@ import { ChevronsRight } from "react-feather";
 
 interface BreadcrumbItem {
   label: string;
-  to: string;
+  to?: string;
 }
 
 interface BreadcrumbsProps {

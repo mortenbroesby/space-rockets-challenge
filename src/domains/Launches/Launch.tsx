@@ -21,6 +21,8 @@ import {
   StatGroup,
 } from "@chakra-ui/react";
 
+import { Launch } from "./types";
+
 import { useSpaceX } from "../../utils";
 import { formatDateTime } from "../../utils";
 import { Error } from "../../components/Error";
@@ -28,9 +30,12 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 
 export function Launch() {
   let { launchId } = useParams();
-  const { data: launch, error } = useSpaceX(`/launches/${launchId}`);
+  const { data: launch, error } = useSpaceX<Launch>(`/launches/${launchId}`);
 
-  if (error) return <Error />;
+  if (error) {
+    return <Error />;
+  }
+
   if (!launch) {
     return (
       <Flex justifyContent="center" alignItems="center" minHeight="50vh">
@@ -62,7 +67,11 @@ export function Launch() {
   );
 }
 
-function Header({ launch }) {
+interface LaunchProps {
+  launch: Launch;
+}
+
+function Header({ launch }: LaunchProps) {
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -113,7 +122,7 @@ function Header({ launch }) {
   );
 }
 
-function TimeAndLocation({ launch }) {
+function TimeAndLocation({ launch }: LaunchProps) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -149,7 +158,7 @@ function TimeAndLocation({ launch }) {
   );
 }
 
-function RocketInfo({ launch }) {
+function RocketInfo({ launch }: LaunchProps) {
   const cores = launch.rocket.first_stage.cores;
 
   return (
@@ -181,10 +190,10 @@ function RocketInfo({ launch }) {
             </Box>
           </StatLabel>
           <StatNumber fontSize={["md", "xl"]}>
-            {cores.map((core) => core.core_serial).join(", ")}
+            {cores.map((core: any) => core.core_serial).join(", ")}
           </StatNumber>
           <StatHelpText>
-            {cores.every((core) => core.land_success)
+            {cores.every((core: any) => core.land_success)
               ? cores.length === 1
                 ? "Recovered"
                 : "All recovered"
@@ -204,7 +213,7 @@ function RocketInfo({ launch }) {
           <StatHelpText>
             Payload:{" "}
             {launch.rocket.second_stage.payloads
-              .map((payload) => payload.payload_type)
+              .map((payload: any) => payload.payload_type)
               .join(", ")}
           </StatHelpText>
         </Stat>
@@ -213,7 +222,7 @@ function RocketInfo({ launch }) {
   );
 }
 
-function Video({ launch }) {
+function Video({ launch }: LaunchProps) {
   return (
     <AspectRatio maxH="400px" ratio={1.7}>
       <Box
@@ -226,7 +235,11 @@ function Video({ launch }) {
   );
 }
 
-function Gallery({ images }) {
+interface GalleryProps {
+  images: string[];
+}
+
+function Gallery({ images }: GalleryProps) {
   return (
     <SimpleGrid my="6" minChildWidth="350px" spacing="4">
       {images.map((image) => (

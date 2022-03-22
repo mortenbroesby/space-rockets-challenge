@@ -19,9 +19,15 @@ function getSpaceXUrl(path: string, options: any) {
   return `${spaceXApiBase}${path}?${searchParams.toString()}`;
 }
 
-export function useSpaceX(path: string, options: any) {
+export function useSpaceX<T extends any>(path: string, options?: any) {
   const endpointUrl = getSpaceXUrl(path, options);
-  return useSWR(path ? endpointUrl : null, fetcher);
+
+  type SWRResponse = {
+    data?: T;
+    error?: any;
+  };
+
+  return useSWR(path ? endpointUrl : null, fetcher) as SWRResponse;
 }
 
 export function useSpaceXPaginated(path: string, options: any) {
