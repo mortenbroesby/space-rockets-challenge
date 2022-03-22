@@ -11,7 +11,7 @@ import LoadMoreButton from "../../components/load-more-button";
 
 const PAGE_SIZE = 12;
 
-export default function Launches() {
+export function Launches() {
   const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
     "/launches/past",
     {

@@ -21,12 +21,12 @@ import {
   StatGroup,
 } from "@chakra-ui/core";
 
-import { useSpaceX } from "../utils/use-space-x";
-import { formatDateTime } from "../utils/format-date";
-import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
+import { useSpaceX } from "../../utils/use-space-x";
+import { formatDateTime } from "../../utils/format-date";
+import Error from "../../components/error";
+import Breadcrumbs from "../../components/breadcrumbs";
 
-export default function Launch() {
+export function Launch() {
   let { launchId } = useParams();
   const { data: launch, error } = useSpaceX(`/launches/${launchId}`);
 
