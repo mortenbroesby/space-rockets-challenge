@@ -22,6 +22,10 @@ My project architecture takes inspiration from past experiences. A good write-up
 
 https://michalzalecki.com/elegant-frontend-architecture/
 
+### ⚙️ Named exports
+
+I use named exports throughout my code. This is useful to ensure an importable is consumed as intended. I've experienced a benefit to this approach when a project scales, but I'm not strongly oppinionated about it.
+
 
 #### 🗂 Folder Structure
 
