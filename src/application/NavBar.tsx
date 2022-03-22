@@ -1,7 +1,28 @@
 import React from "react";
-import { Flex, Text } from "@chakra-ui/core";
+import { Flex, Text, Spacer } from "@chakra-ui/react";
+
+import { isDev } from "../utils";
 
 export function NavBar() {
+  const debugVersion = process.env.REACT_APP_VERSION ?? -1;
+
+  const isDevelopment = isDev();
+  const debugString = isDevelopment ? `Version: ${debugVersion}` : "";
+
+  const debugComponent = isDevelopment ? (
+    <>
+      <Spacer />
+      <Text
+        fontFamily="mono"
+        letterSpacing="2px"
+        fontWeight="bold"
+        fontSize="lg"
+      >
+        {debugString}
+      </Text>
+    </>
+  ) : null;
+
   return (
     <Flex
       as="nav"
@@ -20,6 +41,8 @@ export function NavBar() {
       >
         ¡SPACE·R0CKETS!
       </Text>
+
+      {debugComponent}
     </Flex>
   );
 }

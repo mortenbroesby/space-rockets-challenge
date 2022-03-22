@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ThemeProvider, CSSReset } from "@chakra-ui/core";
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
 
 import { Home, Launches, Launch, LaunchPads, LaunchPad } from "../domains";
@@ -9,10 +9,10 @@ import { NavBar } from "./NavBar";
 export function Application() {
   return (
     <Router>
-      <ThemeProvider>
+      <ChakraProvider>
         <CSSReset />
         <RootComponents />
-      </ThemeProvider>
+      </ChakraProvider>
     </Router>
   );
 }

@@ -6,6 +6,14 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 
 ---
 
+## 🛠 Package updates
+
+Early in my project inspection phase, I noticed that a range of packages were out of date. One notable example was Chakra-UI.
+
+I took the liberty of ["migrating to the latest version of Chakra"](https://chakra-ui.com/guides/migration), together with other package version bumps.
+
+---
+
 ## 📡 Hosting
 
 I've decided on using Vercel to host my implementation of the Space Rocket challenge. Easy to use, CI built-in.

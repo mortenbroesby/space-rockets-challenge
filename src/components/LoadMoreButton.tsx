@@ -1,5 +1,5 @@
 import React from "react";
-import { Spinner, Flex, Button } from "@chakra-ui/core";
+import { Spinner, Flex, Button } from "@chakra-ui/react";
 
 interface LoadMoreButtonProps {
   loadMore: any;

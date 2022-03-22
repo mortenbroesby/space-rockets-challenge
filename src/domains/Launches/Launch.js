@@ -17,9 +17,9 @@ import {
   Image,
   Link,
   Stack,
-  AspectRatioBox,
+  AspectRatio,
   StatGroup,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { useSpaceX } from "../../utils";
 import { formatDateTime } from "../../utils";
@@ -215,14 +215,14 @@ function RocketInfo({ launch }) {
 
 function Video({ launch }) {
   return (
-    <AspectRatioBox maxH="400px" ratio={1.7}>
+    <AspectRatio maxH="400px" ratio={1.7}>
       <Box
         as="iframe"
         title={launch.mission_name}
         src={`https://www.youtube.com/embed/${launch.links.youtube_id}`}
         allowFullScreen
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 
