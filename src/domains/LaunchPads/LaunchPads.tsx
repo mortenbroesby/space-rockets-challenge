@@ -6,16 +6,20 @@ import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LoadMoreButton } from "../../components/LoadMoreButton";
 import { useSpaceXPaginated } from "../../utils";
+import { noop } from "../../utils/misc";
 
 const PAGE_SIZE = 12;
 
 export function LaunchPadsPage() {
-  const { data, error, isValidating, size, setSize } = useSpaceXPaginated(
-    "/launchpads",
-    {
-      limit: PAGE_SIZE,
-    }
-  );
+  const {
+    data,
+    error,
+    isValidating,
+    size = 0,
+    setSize = noop,
+  } = useSpaceXPaginated("/launchpads", {
+    limit: PAGE_SIZE,
+  });
 
   return (
     <div>
@@ -41,7 +45,7 @@ export function LaunchPadsPage() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+function LaunchPadItem({ launchPad }: any) {
   return (
     <Box
       as={Link}

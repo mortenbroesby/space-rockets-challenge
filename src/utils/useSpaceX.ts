@@ -9,7 +9,7 @@ const fetcher = async (...args: any[]) => {
   return await response.json();
 };
 
-function getSpaceXUrl(path: string, options: any) {
+function getSpaceXUrl(path: string | null, options: any) {
   const searchParams = new URLSearchParams();
   for (const property in options) {
     searchParams.append(property, options[property]);
@@ -19,7 +19,7 @@ function getSpaceXUrl(path: string, options: any) {
   return `${spaceXApiBase}${path}?${searchParams.toString()}`;
 }
 
-export function useSpaceX<T extends any>(path: string, options?: any) {
+export function useSpaceX<T extends any>(path: string | null, options?: any) {
   const endpointUrl = getSpaceXUrl(path, options);
 
   type SWRResponse = {

@@ -24,7 +24,9 @@ import { LaunchItem } from "../Launches";
 
 export function LaunchPadPage() {
   let { launchPadId } = useParams();
-  const { data: launchPad, error } = useSpaceX(`/launchpads/${launchPadId}`);
+  const { data: launchPad, error } = useSpaceX<any>(
+    `/launchpads/${launchPadId}`
+  );
 
   const { data: launches } = useSpaceX(launchPad ? "/launches/past" : null, {
     limit: 3,
@@ -33,7 +35,10 @@ export function LaunchPadPage() {
     site_id: launchPad?.site_id,
   });
 
-  if (error) return <Error />;
+  if (error) {
+    return <Error />;
+  }
+
   if (!launchPad) {
     return (
       <Flex justifyContent="center" alignItems="center" minHeight="50vh">
@@ -67,7 +72,7 @@ export function LaunchPadPage() {
 const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
-function Header({ launchPad }) {
+function Header({ launchPad }: any) {
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -110,7 +115,7 @@ function Header({ launchPad }) {
   );
 }
 
-function LocationAndVehicles({ launchPad }) {
+function LocationAndVehicles({ launchPad }: any) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -138,10 +143,12 @@ function LocationAndVehicles({ launchPad }) {
   );
 }
 
-function Map({ location }) {
+function Map({ location }: any) {
+  const ChakraBox: any = Box;
+
   return (
     <AspectRatio ratio={16 / 5}>
-      <Box
+      <ChakraBox
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
         alt="demo"
@@ -150,17 +157,18 @@ function Map({ location }) {
   );
 }
 
-function RecentLaunches({ launches }) {
+function RecentLaunches({ launches }: any) {
   if (!launches?.length) {
     return null;
   }
+
   return (
     <Stack my="8" spacing="3">
       <Text fontSize="xl" fontWeight="bold">
         Last launches
       </Text>
       <SimpleGrid minChildWidth="350px" spacing="4">
-        {launches.map((launch) => (
+        {launches.map((launch: any) => (
           <LaunchItem launch={launch} key={launch.flight_number} />
         ))}
       </SimpleGrid>
