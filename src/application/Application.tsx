@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import { Routes, Route } from "react-router-dom";
 
-import Home from "../domains/Home";
+import { Home } from "../domains/Home";
 import { Launches } from "../domains/Launches";
 import { Launch } from "../domains/Launches";
 import LaunchPads from "../components/launch-pads";
