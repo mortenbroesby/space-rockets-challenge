@@ -3,7 +3,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
 
-import { Home, Launches, Launch, LaunchPads, LaunchPad } from "../domains";
+import {
+  HomePage,
+  LaunchesPage,
+  LaunchPage,
+  LaunchPadsPage,
+  LaunchPadPage,
+} from "../domains";
+
 import { NavBar } from "./NavBar";
 
 export function Application() {
@@ -29,11 +36,11 @@ function RootComponents() {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/launches" element={<Launches />} />
-      <Route path="/launches/:launchId" element={<Launch />} />
-      <Route path="/launch-pads" element={<LaunchPads />} />
-      <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/launches" element={<LaunchesPage />} />
+      <Route path="/launches/:launchId" element={<LaunchPage />} />
+      <Route path="/launch-pads" element={<LaunchPadsPage />} />
+      <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
     </Routes>
   );
 }

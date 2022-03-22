@@ -22,7 +22,7 @@ import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LaunchItem } from "../Launches";
 
-export function LaunchPad() {
+export function LaunchPadPage() {
   let { launchPadId } = useParams();
   const { data: launchPad, error } = useSpaceX(`/launchpads/${launchPadId}`);
 

@@ -9,7 +9,7 @@ import { useSpaceXPaginated } from "../../utils";
 
 const PAGE_SIZE = 12;
 
-export function LaunchPads() {
+export function LaunchPadsPage() {
   const { data, error, isValidating, size, setSize } = useSpaceXPaginated(
     "/launchpads",
     {

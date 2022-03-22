@@ -28,7 +28,7 @@ import { formatDateTime } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 
-export function Launch() {
+export function LaunchPage() {
   let { launchId } = useParams();
   const { data: launch, error } = useSpaceX<Launch>(`/launches/${launchId}`);
 
