@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 import { useSpaceXPaginated } from "../../utils/use-space-x";
 import { formatDate } from "../../utils/format-date";
-import { Error } from "../../components/_error";
-import { Breadcrumbs } from "../../components/_breadcrumbs";
-import { LoadMoreButton } from "../../components/_load-more-button";
+import { Error } from "../../components/Error";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
+import { LoadMoreButton } from "../../components/LoadMoreButton";
 
 const PAGE_SIZE = 12;
 

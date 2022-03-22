@@ -23,8 +23,8 @@ import {
 
 import { useSpaceX } from "../../utils/use-space-x";
 import { formatDateTime } from "../../utils/format-date";
-import { Error } from "../../components/_error";
-import { Breadcrumbs } from "../../components/_breadcrumbs";
+import { Error } from "../../components/Error";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
 
 export function Launch() {
   let { launchId } = useParams();
