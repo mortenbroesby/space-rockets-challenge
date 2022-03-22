@@ -22,6 +22,15 @@ export function Application() {
   );
 }
 
+function RootComponents() {
+  return (
+    <div>
+      <NavBar />
+      <AppRoutes />
+    </div>
+  );
+}
+
 function AppRoutes() {
   return (
     <Routes>
@@ -31,14 +40,5 @@ function AppRoutes() {
       <Route path="/launch-pads" element={<LaunchPads />} />
       <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
     </Routes>
-  );
-}
-
-function RootComponents() {
-  return (
-    <div>
-      <NavBar />
-      <AppRoutes />
-    </div>
   );
 }
