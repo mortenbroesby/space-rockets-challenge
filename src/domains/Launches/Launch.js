@@ -21,8 +21,8 @@ import {
   StatGroup,
 } from "@chakra-ui/core";
 
-import { useSpaceX } from "../../utils/use-space-x";
-import { formatDateTime } from "../../utils/format-date";
+import { useSpaceX } from "../../utils";
+import { formatDateTime } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 

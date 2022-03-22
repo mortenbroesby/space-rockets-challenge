@@ -3,8 +3,8 @@ import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/core";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
-import { useSpaceXPaginated } from "../../utils/use-space-x";
-import { formatDate } from "../../utils/format-date";
+import { useSpaceXPaginated } from "../../utils";
+import { formatDate } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LoadMoreButton } from "../../components/LoadMoreButton";

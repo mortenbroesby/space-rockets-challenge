@@ -17,7 +17,7 @@ import {
   AspectRatioBox,
 } from "@chakra-ui/core";
 
-import { useSpaceX } from "../../utils/use-space-x";
+import { useSpaceX } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LaunchItem } from "../Launches";

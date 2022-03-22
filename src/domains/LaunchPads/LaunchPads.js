@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LoadMoreButton } from "../../components/LoadMoreButton";
-import { useSpaceXPaginated } from "../../utils/use-space-x";
+import { useSpaceXPaginated } from "../../utils";
 
 const PAGE_SIZE = 12;
 
