@@ -15,17 +15,17 @@ My project architecture takes inspiration from past experiences. A good write-up
 https://michalzalecki.com/elegant-frontend-architecture/
 
 
-### 🗂 Folder Structure
+#### 🗂 Folder Structure
 
 ```
 src
 ├── application
-├── domain
+├── domains
 ├── components
 ├── infrastructure
 └── utils
 ```
 
-## 🚀 Commit Convention
+## 🔗 Commit Convention
 
 I have had a good experience over the last two years following ["Conventional Commits"](https://www.conventionalcommits.org/en/v1.0.0/#summary)
