@@ -8,7 +8,20 @@ import {
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 
-export function Breadcrumbs({ items }) {
+interface BreadcrumbItem {
+  label: string;
+  to: string;
+}
+
+interface BreadcrumbsProps {
+  items: BreadcrumbItem[];
+}
+
+export function Breadcrumbs(properties: BreadcrumbsProps) {
+  const { items } = properties;
+
+  const ChakraBreadcrumbLink: any = BreadcrumbLink; // TODO: Fix types
+
   return (
     <Breadcrumb
       m="6"
@@ -19,12 +32,12 @@ export function Breadcrumbs({ items }) {
         const isCurrentPage = items.length === index + 1;
         return (
           <BreadcrumbItem isCurrentPage={isCurrentPage} key={item.label}>
-            <BreadcrumbLink
+            <ChakraBreadcrumbLink
               as={!isCurrentPage ? Link : undefined}
               to={!isCurrentPage ? item.to : undefined}
             >
               {item.label}
-            </BreadcrumbLink>
+            </ChakraBreadcrumbLink>
           </BreadcrumbItem>
         );
       })}
