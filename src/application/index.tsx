@@ -4,7 +4,7 @@ import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import { Routes, Route } from "react-router-dom";
 import { Flex, Text } from "@chakra-ui/core";
 
-import Home from "../domains/home/home";
+import Home from "../domains/home";
 import Launches from "../components/launches";
 import Launch from "../components/launch";
 import LaunchPads from "../components/launch-pads";
