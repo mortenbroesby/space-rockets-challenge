@@ -8,13 +8,13 @@ import {
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 
-interface BreadcrumbItem {
+interface BreadcrumbSchema {
   label: string;
   to?: string;
 }
 
 interface BreadcrumbsProps {
-  items: BreadcrumbItem[];
+  items: BreadcrumbSchema[];
 }
 
 export function Breadcrumbs(properties: BreadcrumbsProps) {
