@@ -1,2 +1,2 @@
-export * from "./format-date";
-export * from "./use-space-x";
+export * from "./formatDate";
+export * from "./useSpaceX";
