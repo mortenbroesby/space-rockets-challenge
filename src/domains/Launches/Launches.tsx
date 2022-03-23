@@ -50,7 +50,7 @@ export function LaunchesPage() {
 
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
-        data={data}
+        data={safeData}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
       />

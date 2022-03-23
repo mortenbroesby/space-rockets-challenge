@@ -2,18 +2,17 @@ import React from "react";
 import { Spinner, Flex, Button } from "@chakra-ui/react";
 
 interface LoadMoreButtonProps {
-  loadMore: any;
-  data: any;
-  pageSize: any;
-  isLoadingMore: any;
+  loadMore: () => void;
+  data: any[];
+  pageSize: number;
+  isLoadingMore: boolean;
 }
 
 export function LoadMoreButton(properties: LoadMoreButtonProps) {
   const { loadMore, data, pageSize, isLoadingMore } = properties;
 
-  const isReachingEnd =
-    data?.[0]?.length === 0 ||
-    (data && data[data.length - 1]?.length < pageSize);
+  const dataLength = data[data.length - 1]?.length;
+  const isReachingEnd = data[0]?.length === 0 || dataLength < pageSize;
 
   return (
     <Flex justifyContent="center" my="100px">

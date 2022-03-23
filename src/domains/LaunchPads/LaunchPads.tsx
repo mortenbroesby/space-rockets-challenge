@@ -21,6 +21,8 @@ export function LaunchPadsPage() {
     limit: PAGE_SIZE,
   });
 
+  const safeData: any[] = Array.isArray(data) ? data : [];
+
   return (
     <div>
       <Breadcrumbs
@@ -37,7 +39,7 @@ export function LaunchPadsPage() {
       </SimpleGrid>
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
-        data={data}
+        data={safeData}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
       />
