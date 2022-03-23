@@ -124,6 +124,7 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
 
         <Flex>
           <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
+
           <Text color="gray.500" ml="2" fontSize="sm">
             {timeAgo(launch.launch_date_utc)}
           </Text>

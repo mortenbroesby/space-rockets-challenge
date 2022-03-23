@@ -1,31 +1,58 @@
-import moment from "moment";
+import { DateTime } from "luxon";
 
-export function formatDate(timestamp: string) {
-  return new Intl.DateTimeFormat("en-US", {
+export interface FormattingOptions {
+  keepUserTimezone: boolean;
+}
+
+export function formatDate(
+  targetDate: string,
+  options?: FormattingOptions
+): string {
+  const { keepUserTimezone = false } = options ?? {};
+
+  const dateWithTZ = DateTime.fromISO(targetDate, {
+    setZone: keepUserTimezone,
+  });
+
+  const formattedDate = dateWithTZ.setLocale("en-US").toLocaleString({
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  }).format(new Date(timestamp));
-}
+  });
 
-export interface FormattingOptions {
-  keepTimezone: boolean;
+  const dateToString = formattedDate.toString().toLowerCase();
+
+  const isInvalidDate = dateToString.includes("invalid");
+  if (isInvalidDate) {
+    return "";
+  }
+
+  return formattedDate;
 }
 
 export function formatDateTime(
   targetDate: string,
   options?: FormattingOptions
 ): string {
-  const { keepTimezone = false } = options ?? {};
+  const { keepUserTimezone = false } = options ?? {};
 
-  const parsedDate = keepTimezone
-    ? moment.parseZone(targetDate)
-    : moment(targetDate);
+  const dateWithTZ = DateTime.fromISO(targetDate, {
+    setZone: keepUserTimezone,
+  });
 
-  const formattedDate = parsedDate.format("MMMM DD, YYYY, HH:mm:ss Z");
+  const formattedDate = dateWithTZ.setLocale("en-US").toLocaleString({
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    timeZoneName: "short",
+  });
 
   const dateToString = formattedDate.toString().toLowerCase();
+
   const isInvalidDate = dateToString.includes("invalid");
   if (isInvalidDate) {
     return "";
