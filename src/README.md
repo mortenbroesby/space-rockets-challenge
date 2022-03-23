@@ -48,6 +48,16 @@ https://space-rockets-challenge-pleo.vercel.app/
 
 ---
 
+## 🗓 Date parsing
+
+I've always tried to avoid doing actual timezone parsing if I could avoid it, as ["dates are a headache in Javascript"](https://maggiepint.com/2017/04/09/fixing-javascript-date-getting-started/).
+
+At the moment, I rely on Moment.js for the heavy lifting in terms of date parsing.
+
+Should this library become a large production application, then I would definitely find a more minimal library than Moment.js for date manipulation. I would even go as far to consider a completely custom library with a strong focus on only having exactly the utility functions we need.
+
+---
+
 ## ⚡️ Typescript
 
 I took the liberty of adding Typescript to the project.
