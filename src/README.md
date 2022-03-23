@@ -19,7 +19,7 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 - Add guards against invalid API data, or Middleware.
 - Simplify pages by splitting up component and business-logic into sub-domains.
 - Considering performance, we might want to use a virtual list or group for large data sets.
-
+- Properly fix source-map issue with Timeago.js
 
 ---
 
