@@ -19,6 +19,7 @@ import {
   Stack,
   AspectRatio,
   StatGroup,
+  Tooltip,
 } from "@chakra-ui/react";
 
 import { Launch } from "../types/launch";
@@ -124,6 +125,27 @@ function Header({ launch }: LaunchBaseProps) {
 }
 
 function TimeAndLocation({ launch }: LaunchBaseProps) {
+  const { launch_date_local, launch_date_utc } = launch;
+
+  const timezoneFormattedDate = formatDateTime(launch_date_local, {
+    keepUserTimezone: true,
+  });
+
+  const userFormattedDate = formatDateTime(launch_date_local, {
+    keepUserTimezone: false,
+  });
+
+  const utcFormattedDate = formatDateTime(launch_date_utc, {
+    keepUserTimezone: true,
+  });
+
+  const tooltipLabel = (
+    <>
+      <Text fontSize="xs">{userFormattedDate}</Text>
+      <Text fontSize="xs">{utcFormattedDate}</Text>
+    </>
+  );
+
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -133,9 +155,13 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
             Launch Date
           </Box>
         </StatLabel>
+
         <StatNumber fontSize={["md", "xl"]}>
-          {formatDateTime(launch.launch_date_local)}
+          <Tooltip hasArrow label={tooltipLabel}>
+            {timezoneFormattedDate}
+          </Tooltip>
         </StatNumber>
+
         <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
       </Stat>
 

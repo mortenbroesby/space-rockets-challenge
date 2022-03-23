@@ -24,9 +24,11 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
   - Notable example: Update `swr` package and migrate to updated API. Comes with a lot of improvements.
 
 # Nitpicking
+- Find a way to get the local dates with UTC offset from the SpaceX API, instead of the browser offset.
 - If this was a production application:
   - Go through application and ensure dark-mode looks good everywhere.
   - Properly fix the existing source-map issue with Timeago.js.
+
 
 ---
 
@@ -45,6 +47,16 @@ I've decided on using Vercel to host my implementation of the Space Rocket chall
 At the time of writing, you can see it running on the following URL:
 
 https://space-rockets-challenge-pleo.vercel.app/
+
+---
+
+## 🗓 Date parsing
+
+I've always tried to avoid doing actual timezone parsing if I could avoid it, as ["dates are a headache in Javascript"](https://maggiepint.com/2017/04/09/fixing-javascript-date-getting-started/).
+
+At the moment, I rely on a Date library - currently `luxon` - for the heavy lifting in terms of date parsing.
+
+Should this library become a large production application, then I would definitely find a more minimal library for date manipulation. I would even go as far to consider a completely custom library with a strong focus on only having exactly the utility functions we need.
 
 ---
 
