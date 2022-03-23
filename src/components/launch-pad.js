@@ -14,42 +14,26 @@ import {
   Text,
   Spinner,
   Stack,
-  AspectRatio,
-} from "@chakra-ui/react";
+  AspectRatioBox,
+} from "@chakra-ui/core";
 
-import { randomColor, useSpaceX } from "../../utils";
-import { Error, Breadcrumbs } from "../../components";
-import { LaunchItem } from "../Launches";
-import { LaunchPad } from "../types";
-import { PastLaunches, Location } from "../types";
+import { useSpaceX } from "../utils/use-space-x";
+import Error from "./error";
+import Breadcrumbs from "./breadcrumbs";
+import { LaunchItem } from "./launches";
 
-interface LaunchPadBaseProps {
-  launchPad: LaunchPad;
-}
-
-export function LaunchPadPage() {
+export default function LaunchPad() {
   let { launchPadId } = useParams();
+  const { data: launchPad, error } = useSpaceX(`/launchpads/${launchPadId}`);
 
-  const { data: launchPad, error } = useSpaceX<LaunchPad>(
-    `/launchpads/${launchPadId}`
-  );
+  const { data: launches } = useSpaceX(launchPad ? "/launches/past" : null, {
+    limit: 3,
+    order: "desc",
+    sort: "launch_date_utc",
+    site_id: launchPad?.site_id,
+  });
 
-  const { data: launches } = useSpaceX<PastLaunches>(
-    launchPad ? "/launches/past" : null,
-    {
-      limit: 3,
-      order: "desc",
-      sort: "launch_date_utc",
-      site_id: launchPad?.site_id,
-    }
-  );
-
-  const safeLaunches: PastLaunches[] = Array.isArray(launches) ? launches : [];
-
-  if (error) {
-    return <Error />;
-  }
-
+  if (error) return <Error />;
   if (!launchPad) {
     return (
       <Flex justifyContent="center" alignItems="center" minHeight="50vh">
@@ -74,13 +58,16 @@ export function LaunchPadPage() {
           {launchPad.details}
         </Text>
         <Map location={launchPad.location} />
-        <RecentLaunches launches={safeLaunches} />
+        <RecentLaunches launches={launches} />
       </Box>
     </div>
   );
 }
 
-function Header({ launchPad }: LaunchPadBaseProps) {
+const randomColor = (start = 200, end = 250) =>
+  `hsl(${start + end * Math.random()}, 80%, 90%)`;
+
+function Header({ launchPad }) {
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -105,16 +92,16 @@ function Header({ launchPad }: LaunchPadBaseProps) {
         {launchPad.site_name_long}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge colorScheme="purple" fontSize={["sm", "md"]}>
+        <Badge variantColor="purple" fontSize={["sm", "md"]}>
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
-        {launchPad.status === "active" ? (
-          <Badge colorScheme="green" fontSize={["sm", "md"]}>
+        {launchPad.stats === "active" ? (
+          <Badge variantColor="green" fontSize={["sm", "md"]}>
             Active
           </Badge>
         ) : (
-          <Badge colorScheme="red" fontSize={["sm", "md"]}>
+          <Badge variantColor="red" fontSize={["sm", "md"]}>
             Retired
           </Badge>
         )}
@@ -123,7 +110,7 @@ function Header({ launchPad }: LaunchPadBaseProps) {
   );
 }
 
-function LocationAndVehicles({ launchPad }: LaunchPadBaseProps) {
+function LocationAndVehicles({ launchPad }) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -151,39 +138,27 @@ function LocationAndVehicles({ launchPad }: LaunchPadBaseProps) {
   );
 }
 
-interface MapProps {
-  location: Location;
-}
-
-function Map({ location }: MapProps) {
-  const ChakraBox: any = Box; // TODO: fix typings related to `as` coercion
-
+function Map({ location }) {
   return (
-    <AspectRatio ratio={16 / 5}>
-      <ChakraBox
+    <AspectRatioBox ratio={16 / 5}>
+      <Box
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
         alt="demo"
       />
-    </AspectRatio>
+    </AspectRatioBox>
   );
 }
 
-interface RecentLaunchesProps {
-  launches: PastLaunches[];
-}
-
-function RecentLaunches({ launches }: RecentLaunchesProps) {
+function RecentLaunches({ launches }) {
   if (!launches?.length) {
     return null;
   }
-
   return (
     <Stack my="8" spacing="3">
       <Text fontSize="xl" fontWeight="bold">
         Last launches
       </Text>
-
       <SimpleGrid minChildWidth="350px" spacing="4">
         {launches.map((launch) => (
           <LaunchItem launch={launch} key={launch.flight_number} />

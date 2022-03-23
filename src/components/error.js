@@ -5,9 +5,9 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
-} from "@chakra-ui/react";
+} from "@chakra-ui/core";
 
-export function Error() {
+export default function Error() {
   return (
     <Flex alignItems="center" justifyContent="center" width="100%">
       <Alert
@@ -18,7 +18,7 @@ export function Error() {
         textAlign="center"
         p="8"
       >
-        <AlertIcon mr={0} />
+        <AlertIcon size="6" mr={0} />
         <AlertTitle mt={4} mb={1} fontSize="lg">
           Problems loading the data
         </AlertTitle>

@@ -1,54 +1,43 @@
 import React from "react";
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/core";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
-import { useSpaceXPaginated } from "../../utils";
-import { formatDate } from "../../utils";
-import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
-import { noop } from "../../utils/misc";
-import { PastLaunches } from "../types";
+import { useSpaceXPaginated } from "../utils/use-space-x";
+import { formatDate } from "../utils/format-date";
+import Error from "./error";
+import Breadcrumbs from "./breadcrumbs";
+import LoadMoreButton from "./load-more-button";
 
 const PAGE_SIZE = 12;
 
-interface LaunchesBaseProps {
-  launch: PastLaunches;
-}
-
-export function LaunchesPage() {
-  const fetchOptions = {
-    limit: PAGE_SIZE,
-    order: "desc",
-    sort: "launch_date_utc",
-  };
-
-  const {
-    data,
-    error,
-    isValidating,
-    setSize = noop,
-    size = 0,
-  } = useSpaceXPaginated("/launches/past", fetchOptions);
-
-  const safeData: PastLaunches[] = Array.isArray(data) ? data : [];
-  const gridContent = safeData
-    .flat()
-    .map((launch) => <LaunchItem launch={launch} key={launch.flight_number} />);
-
+export default function Launches() {
+  const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
+    "/launches/past",
+    {
+      limit: PAGE_SIZE,
+      order: "desc",
+      sort: "launch_date_utc",
+    }
+  );
+  console.log(data, error);
   return (
     <div>
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
       />
-
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
-        {gridContent}
+        {data &&
+          data
+            .flat()
+            .map((launch) => (
+              <LaunchItem launch={launch} key={launch.flight_number} />
+            ))}
       </SimpleGrid>
-
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
-        data={safeData}
+        data={data}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
       />
@@ -56,7 +45,7 @@ export function LaunchesPage() {
   );
 }
 
-export function LaunchItem({ launch }: LaunchesBaseProps) {
+export function LaunchItem({ launch }) {
   return (
     <Box
       as={Link}
@@ -92,11 +81,11 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
       <Box p="6">
         <Box d="flex" alignItems="baseline">
           {launch.launch_success ? (
-            <Badge px="2" variant="solid" colorScheme="green">
+            <Badge px="2" variant="solid" variantColor="green">
               Successful
             </Badge>
           ) : (
-            <Badge px="2" variant="solid" colorScheme="red">
+            <Badge px="2" variant="solid" variantColor="red">
               Failed
             </Badge>
           )}
@@ -121,7 +110,6 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
         >
           {launch.mission_name}
         </Box>
-
         <Flex>
           <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
           <Text color="gray.500" ml="2" fontSize="sm">

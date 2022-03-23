@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { Flex, Box, Text, Stack, Link } from "@chakra-ui/react";
+import React from "react";
+import { Flex, Box, Text, Stack, Link } from "@chakra-ui/core";
 import { ArrowRight } from "react-feather";
 import { Link as BrowserLink } from "react-router-dom";
 
-export function HomePage() {
+export default function Home() {
   return (
     <Stack m="6" spacing="6">
       <PageLink url="/launches">Browse SpaceX Launches</PageLink>
@@ -12,15 +12,9 @@ export function HomePage() {
   );
 }
 
-interface PageLinkProps {
-  url: string;
-}
-
-const PageLink: FC<PageLinkProps> = (properties) => {
-  const { url, children, ...remainingProps } = properties;
-
+function PageLink({ url, children, ...rest }) {
   return (
-    <Link as={BrowserLink} to={url} {...remainingProps}>
+    <Link as={BrowserLink} to={url} {...rest}>
       <Flex
         justifyContent="space-between"
         p="6"
@@ -33,4 +27,4 @@ const PageLink: FC<PageLinkProps> = (properties) => {
       </Flex>
     </Link>
   );
-};
+}
