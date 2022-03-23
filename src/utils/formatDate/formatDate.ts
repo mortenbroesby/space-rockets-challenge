@@ -1,25 +1,29 @@
 import { DateTime } from "luxon";
 
-export interface FormattingOptions {
+export interface TimezoneOptions {
   keepUserTimezone: boolean;
 }
 
-export function formatDate(
-  targetDate: string,
-  options?: FormattingOptions
-): string {
+function formatInputDate({
+  targetDate,
+  formatOptions,
+  options,
+}: {
+  targetDate: string;
+  formatOptions: Intl.DateTimeFormatOptions;
+  options?: TimezoneOptions;
+}): string {
   const { keepUserTimezone = false } = options ?? {};
 
-  const dateWithTZ = DateTime.fromISO(targetDate, {
+  const dateWithTimezone = DateTime.fromISO(targetDate, {
     setZone: keepUserTimezone,
   });
 
-  const formattedDate = dateWithTZ.setLocale("en-US").toLocaleString({
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const targetLocale = "en-US";
+
+  const formattedDate = dateWithTimezone
+    .setLocale(targetLocale)
+    .toLocaleString(formatOptions);
 
   const dateToString = formattedDate.toString().toLowerCase();
 
@@ -31,17 +35,25 @@ export function formatDate(
   return formattedDate;
 }
 
+export function formatDate(
+  targetDate: string,
+  options?: TimezoneOptions
+): string {
+  const formatOptions: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  return formatInputDate({ targetDate, formatOptions, options });
+}
+
 export function formatDateTime(
   targetDate: string,
-  options?: FormattingOptions
+  options?: TimezoneOptions
 ): string {
-  const { keepUserTimezone = false } = options ?? {};
-
-  const dateWithTZ = DateTime.fromISO(targetDate, {
-    setZone: keepUserTimezone,
-  });
-
-  const formattedDate = dateWithTZ.setLocale("en-US").toLocaleString({
+  const formatOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -49,14 +61,7 @@ export function formatDateTime(
     minute: "numeric",
     second: "numeric",
     timeZoneName: "short",
-  });
+  };
 
-  const dateToString = formattedDate.toString().toLowerCase();
-
-  const isInvalidDate = dateToString.includes("invalid");
-  if (isInvalidDate) {
-    return "";
-  }
-
-  return formattedDate;
+  return formatInputDate({ targetDate, formatOptions, options });
 }
