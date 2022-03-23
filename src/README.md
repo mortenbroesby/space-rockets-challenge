@@ -19,7 +19,13 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 - Add guards against invalid API data, or Middleware.
 - Simplify pages by splitting up component and business-logic into sub-domains.
 - Considering performance, we might want to use a virtual list or group for large data sets.
-- Properly fix source-map issue with Timeago.js
+- Loop through dependency NPM modules and ensure they are up to date, to facilitate usage best.
+- Setup CI bots to automate CI/CD and continuous deployment, long term.
+- Generally I recommend that packages are kept updated as part of a maintenance flow.
+  - Notable example: Update `swr` package and migrate to updated API. Comes with a lot of improvements.
+
+# Nitpicking
+- If this was a production application, i would properly fix the existing source-map issue with Timeago.js.
 
 ---
 
