@@ -2,6 +2,7 @@ import React from "react";
 import { Flex, Text, Spacer } from "@chakra-ui/react";
 
 import { isDev } from "../utils";
+import { ColorModeSwitcher } from "../components/ColorModeSwitcher";
 
 export function NavBar() {
   const debugVersion = process.env.REACT_APP_VERSION ?? -1;
@@ -10,17 +11,9 @@ export function NavBar() {
   const debugString = isDevelopment ? `Version: ${debugVersion}` : "";
 
   const debugComponent = isDevelopment ? (
-    <>
-      <Spacer />
-      <Text
-        fontFamily="mono"
-        letterSpacing="2px"
-        fontWeight="bold"
-        fontSize="lg"
-      >
-        {debugString}
-      </Text>
-    </>
+    <Text fontFamily="mono" letterSpacing="2px" fontWeight="bold" fontSize="lg">
+      {debugString}
+    </Text>
   ) : null;
 
   return (
@@ -42,7 +35,10 @@ export function NavBar() {
         ¡SPACE·R0CKETS!
       </Text>
 
+      <Spacer />
+
       {debugComponent}
+      <ColorModeSwitcher />
     </Flex>
   );
 }
