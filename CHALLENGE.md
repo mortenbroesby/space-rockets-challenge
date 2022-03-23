@@ -24,6 +24,8 @@ hovering the timestamp. You pick up that ticket.
 
 - treat this as if you fixed a bug in an app you work on together with a team,
   and the app is in production
+- Show timezone of launch-site by default, instead of local timezone.
+- The user's timezone should be kept and shown when hovering (<Tooltip />)
 
 ### 2. Build a feature
 
