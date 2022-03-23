@@ -27,7 +27,7 @@ describe("formatDateTime", () => {
     expect(formattedDate).toBe("July 13, 2009, 03:35:00 +12:00");
   });
 
-  test("Throws on invalid date", () => {
+  test("Returns empty string on invalid date", () => {
     const formattedDate = formatDateTime("invalid-date");
     expect(formattedDate).toBe("");
   });
