@@ -128,15 +128,15 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
   const { launch_date_local, launch_date_utc } = launch;
 
   const timezoneFormattedDate = formatDateTime(launch_date_local, {
-    keepTimezone: true,
+    keepUserTimezone: true,
   });
 
   const userFormattedDate = formatDateTime(launch_date_local, {
-    keepTimezone: false,
+    keepUserTimezone: false,
   });
 
   const utcFormattedDate = formatDateTime(launch_date_utc, {
-    keepTimezone: true,
+    keepUserTimezone: true,
   });
 
   const tooltipLabel = (

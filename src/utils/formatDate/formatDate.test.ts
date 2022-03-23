@@ -13,7 +13,7 @@ describe("formatDate", () => {
 
   test("Parses date with users timezone if configured", () => {
     const formattedDate = formatDate("2009-07-13T15:35:00+12:00", {
-      keepTimezone: false,
+      keepUserTimezone: false,
     });
 
     expect(formattedDate).toBe("Monday, July 13, 2009");
@@ -21,7 +21,7 @@ describe("formatDate", () => {
 
   test("Parses date with existing ISO timezone if configured", () => {
     const formattedDate = formatDate("2009-07-13T15:35:00+12:00", {
-      keepTimezone: true,
+      keepUserTimezone: true,
     });
 
     expect(formattedDate).toBe("Monday, July 13, 2009");
@@ -46,7 +46,7 @@ describe("formatDateTime", () => {
 
   test("Parses date with users timezone if configured", () => {
     const formattedDate = formatDateTime("2009-07-13T15:35:00+12:00", {
-      keepTimezone: false,
+      keepUserTimezone: false,
     });
 
     expect(formattedDate).toBe("July 13, 2009, 5:35:00 AM GMT+2");
@@ -54,7 +54,7 @@ describe("formatDateTime", () => {
 
   test("Parses date with existing ISO timezone if configured", () => {
     const formattedDate = formatDateTime("2009-07-13T15:35:00+12:00", {
-      keepTimezone: true,
+      keepUserTimezone: true,
     });
 
     expect(formattedDate).toBe("July 13, 2009, 3:35:00 PM GMT+12");
