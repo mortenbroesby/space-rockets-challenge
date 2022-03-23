@@ -5,16 +5,21 @@ This document outlines a range of choices I have made while working on this chal
 I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
 ### Considerations
-- Add unit and end to end tests.
-- Add guards against invalid API data, or Middleware.
-- Simplify pages by splitting up component and business-logic into sub-domains.
-- Considering performance, we might want to use a virtual list or group for large data sets.
+- Add dark mode.
+- Add animations.
+- Add basic unit tests.
+
+# Future considerations
+- Add unit and/or end to end tests for the majority of the application.
+- Potentially add service-worker to offload API fetching and offline caching.
+- Consider properly typing SpaceX API, instead of using quicktype.
 - Round of TLC in terms of accessibility and SEO.
 - Pull out domain-specific fetching hooks into wrapper hooks.
 - Proper error handling and production monitoring - example: Sentry.
-- Consider properly typing SpaceX API, instead of using quicktype.
-- Add dark mode.
-- Add animations.
+- Add guards against invalid API data, or Middleware.
+- Simplify pages by splitting up component and business-logic into sub-domains.
+- Considering performance, we might want to use a virtual list or group for large data sets.
+
 
 ---
 
