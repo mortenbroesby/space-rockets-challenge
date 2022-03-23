@@ -1,21 +1,35 @@
 import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
-import LoadMoreButton from "./load-more-button";
-import { useSpaceXPaginated } from "../utils/use-space-x";
+import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
+import { useSpaceXPaginated } from "../../utils";
+import { noop } from "../../utils/misc";
+import { LaunchPad } from "../types";
 
 const PAGE_SIZE = 12;
 
-export default function LaunchPads() {
-  const { data, error, isValidating, size, setSize } = useSpaceXPaginated(
-    "/launchpads",
-    {
-      limit: PAGE_SIZE,
-    }
-  );
+interface LaunchPadBaseProps {
+  launchPad: LaunchPad;
+}
+
+export function LaunchPadsPage() {
+  const {
+    data,
+    error,
+    isValidating,
+    size = 0,
+    setSize = noop,
+  } = useSpaceXPaginated<LaunchPad[]>("/launchpads", {
+    limit: PAGE_SIZE,
+  });
+
+  const safeData: LaunchPad[] = Array.isArray(data) ? data : [];
+  const gridContent = safeData
+    .flat()
+    .map((launchPad) => (
+      <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
+    ));
 
   return (
     <div>
@@ -24,16 +38,11 @@ export default function LaunchPads() {
       />
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
-        {data &&
-          data
-            .flat()
-            .map((launchPad) => (
-              <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
-            ))}
+        {gridContent}
       </SimpleGrid>
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
-        data={data}
+        data={safeData}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
       />
@@ -41,7 +50,7 @@ export default function LaunchPads() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+function LaunchPadItem({ launchPad }: LaunchPadBaseProps) {
   return (
     <Box
       as={Link}
@@ -55,11 +64,11 @@ function LaunchPadItem({ launchPad }) {
       <Box p="6">
         <Box d="flex" alignItems="baseline">
           {launchPad.status === "active" ? (
-            <Badge px="2" variant="solid" variantColor="green">
+            <Badge px="2" variant="solid" colorScheme="green">
               Active
             </Badge>
           ) : (
-            <Badge px="2" variant="solid" variantColor="red">
+            <Badge px="2" variant="solid" colorScheme="red">
               Retired
             </Badge>
           )}
@@ -85,6 +94,7 @@ function LaunchPadItem({ launchPad }) {
         >
           {launchPad.name}
         </Box>
+
         <Text color="gray.500" fontSize="sm">
           {launchPad.vehicles_launched.join(", ")}
         </Text>

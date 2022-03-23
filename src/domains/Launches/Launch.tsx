@@ -17,20 +17,29 @@ import {
   Image,
   Link,
   Stack,
-  AspectRatioBox,
+  AspectRatio,
   StatGroup,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
-import { useSpaceX } from "../utils/use-space-x";
-import { formatDateTime } from "../utils/format-date";
-import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
+import { Launch } from "../types/launch";
 
-export default function Launch() {
+import { useSpaceX } from "../../utils";
+import { formatDateTime } from "../../utils";
+import { Error, Breadcrumbs } from "../../components";
+
+interface LaunchBaseProps {
+  launch: Launch;
+}
+
+export function LaunchPage() {
   let { launchId } = useParams();
-  const { data: launch, error } = useSpaceX(`/launches/${launchId}`);
 
-  if (error) return <Error />;
+  const { data: launch, error } = useSpaceX<Launch>(`/launches/${launchId}`);
+
+  if (error) {
+    return <Error />;
+  }
+
   if (!launch) {
     return (
       <Flex justifyContent="center" alignItems="center" minHeight="50vh">
@@ -62,7 +71,7 @@ export default function Launch() {
   );
 }
 
-function Header({ launch }) {
+function Header({ launch }: LaunchBaseProps) {
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -95,16 +104,17 @@ function Header({ launch }) {
       >
         {launch.mission_name}
       </Heading>
+
       <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["xs", "md"]}>
+        <Badge colorScheme="purple" fontSize={["xs", "md"]}>
           #{launch.flight_number}
         </Badge>
         {launch.launch_success ? (
-          <Badge variantColor="green" fontSize={["xs", "md"]}>
+          <Badge colorScheme="green" fontSize={["xs", "md"]}>
             Successful
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["xs", "md"]}>
+          <Badge colorScheme="red" fontSize={["xs", "md"]}>
             Failed
           </Badge>
         )}
@@ -113,7 +123,7 @@ function Header({ launch }) {
   );
 }
 
-function TimeAndLocation({ launch }) {
+function TimeAndLocation({ launch }: LaunchBaseProps) {
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -128,6 +138,7 @@ function TimeAndLocation({ launch }) {
         </StatNumber>
         <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
       </Stat>
+
       <Stat>
         <StatLabel display="flex">
           <Box as={MapPin} width="1em" />{" "}
@@ -149,7 +160,7 @@ function TimeAndLocation({ launch }) {
   );
 }
 
-function RocketInfo({ launch }) {
+function RocketInfo({ launch }: LaunchBaseProps) {
   const cores = launch.rocket.first_stage.cores;
 
   return (
@@ -172,6 +183,7 @@ function RocketInfo({ launch }) {
         </StatNumber>
         <StatHelpText>{launch.rocket.rocket_type}</StatHelpText>
       </Stat>
+
       <StatGroup>
         <Stat>
           <StatLabel display="flex">
@@ -191,6 +203,7 @@ function RocketInfo({ launch }) {
               : "Lost"}
           </StatHelpText>
         </Stat>
+
         <Stat>
           <StatLabel display="flex">
             <Box as={Layers} width="1em" />{" "}
@@ -213,20 +226,24 @@ function RocketInfo({ launch }) {
   );
 }
 
-function Video({ launch }) {
+function Video({ launch }: LaunchBaseProps) {
   return (
-    <AspectRatioBox maxH="400px" ratio={1.7}>
+    <AspectRatio maxH="400px" ratio={1.7}>
       <Box
         as="iframe"
         title={launch.mission_name}
         src={`https://www.youtube.com/embed/${launch.links.youtube_id}`}
         allowFullScreen
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 
-function Gallery({ images }) {
+interface GalleryProps {
+  images: string[];
+}
+
+function Gallery({ images }: GalleryProps) {
   return (
     <SimpleGrid my="6" minChildWidth="350px" spacing="4">
       {images.map((image) => (
