@@ -24,7 +24,9 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
   - Notable example: Update `swr` package and migrate to updated API. Comes with a lot of improvements.
 
 # Nitpicking
-- If this was a production application, i would properly fix the existing source-map issue with Timeago.js.
+- If this was a production application:
+  - Go through application and ensure dark-mode looks good everywhere.
+  - Properly fix the existing source-map issue with Timeago.js.
 
 ---
 
