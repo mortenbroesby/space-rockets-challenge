@@ -133,6 +133,17 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
     keepTimezone: false,
   });
 
+  const utcFormattedDate = formatDateTime(launch.launch_date_utc, {
+    keepTimezone: true,
+  });
+
+  const tooltipLabel = (
+    <>
+      <Text>Local: {userFormattedDate}</Text>
+      <Text>UTC: {utcFormattedDate}</Text>
+    </>
+  );
+
   return (
     <SimpleGrid columns={[1, 1, 2]} borderWidth="1px" p="4" borderRadius="md">
       <Stat>
@@ -144,7 +155,7 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
         </StatLabel>
 
         <StatNumber fontSize={["md", "xl"]}>
-          <Tooltip hasArrow label={`Locally: ${userFormattedDate}`}>
+          <Tooltip hasArrow label={tooltipLabel}>
             {timezoneFormattedDate}
           </Tooltip>
         </StatNumber>
