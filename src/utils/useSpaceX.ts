@@ -30,7 +30,17 @@ export function useSpaceX<T extends any>(path: string | null, options?: any) {
   return useSWR(path ? endpointUrl : null, fetcher) as SWRResponse;
 }
 
-export function useSpaceXPaginated(path: string, options: any) {
+export function useSpaceXPaginated<T extends any>(path: string, options: any) {
+  type SWRInfiniteResponse = {
+    data?: T;
+    error?: any;
+    size?: number;
+    isValidating: boolean;
+    setSize?: (
+      size: number | ((size: number) => number)
+    ) => Promise<T | undefined>;
+  };
+
   return useSWRInfinite((pageIndex, previousPageData) => {
     if (previousPageData && !previousPageData.length) {
       return null;
@@ -40,5 +50,5 @@ export function useSpaceXPaginated(path: string, options: any) {
       ...options,
       offset: options.limit * pageIndex,
     });
-  }, fetcher);
+  }, fetcher) as SWRInfiniteResponse;
 }

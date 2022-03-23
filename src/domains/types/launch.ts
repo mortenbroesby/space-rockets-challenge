@@ -3,7 +3,7 @@
 export interface Launch {
   flight_number: number;
   mission_name: string;
-  mission_id: any[];
+  mission_id: unknown[];
   launch_year: string;
   launch_date_unix: number;
   launch_date_utc: string;
@@ -13,7 +13,7 @@ export interface Launch {
   tbd: boolean;
   launch_window: null;
   rocket: Rocket;
-  ships: any[];
+  ships: unknown[];
   telemetry: Telemetry;
   launch_site: LaunchSite;
   launch_success: boolean;
@@ -33,13 +33,13 @@ export interface Launch {
   launch_date_source: string;
 }
 
-export interface LaunchSite {
+interface LaunchSite {
   site_id: string;
   site_name: string;
   site_name_long: string;
 }
 
-export interface Links {
+interface Links {
   mission_patch: null;
   mission_patch_small: string | undefined;
   reddit_campaign: string;
@@ -63,18 +63,18 @@ export interface Rocket {
   fairings: Fairings;
 }
 
-export interface Fairings {
+interface Fairings {
   reused: null;
   recovery_attempt: boolean;
   recovered: null;
   ship: null;
 }
 
-export interface FirstStage {
+interface FirstStage {
   cores: Core[];
 }
 
-export interface Core {
+interface Core {
   core_serial: string;
   flight: number;
   block: number;
@@ -87,12 +87,12 @@ export interface Core {
   landing_vehicle: string;
 }
 
-export interface SecondStage {
+interface SecondStage {
   block: number;
   payloads: Payload[];
 }
 
-export interface Payload {
+interface Payload {
   payload_id: string;
   norad_id: number[];
   reused: boolean;
@@ -106,7 +106,7 @@ export interface Payload {
   orbit_params: OrbitParams;
 }
 
-export interface OrbitParams {
+interface OrbitParams {
   reference_system: string;
   regime: string;
   longitude: null;
@@ -124,6 +124,6 @@ export interface OrbitParams {
   mean_anomaly: number;
 }
 
-export interface Telemetry {
+interface Telemetry {
   flight_club: null;
 }

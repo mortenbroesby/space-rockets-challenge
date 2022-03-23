@@ -21,16 +21,12 @@ import {
   StatGroup,
 } from "@chakra-ui/react";
 
-import { Launch } from "./types/launch";
+import { Launch } from "../types/launch";
 
 import { useSpaceX } from "../../utils";
 import { formatDateTime } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
-
-/**
- * TODO: Add types to this page
- */
 
 interface LaunchBaseProps {
   launch: Launch;
@@ -38,6 +34,7 @@ interface LaunchBaseProps {
 
 export function LaunchPage() {
   let { launchId } = useParams();
+
   const { data: launch, error } = useSpaceX<Launch>(`/launches/${launchId}`);
 
   if (error) {
@@ -142,6 +139,7 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
         </StatNumber>
         <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
       </Stat>
+
       <Stat>
         <StatLabel display="flex">
           <Box as={MapPin} width="1em" />{" "}
@@ -186,6 +184,7 @@ function RocketInfo({ launch }: LaunchBaseProps) {
         </StatNumber>
         <StatHelpText>{launch.rocket.rocket_type}</StatHelpText>
       </Stat>
+
       <StatGroup>
         <Stat>
           <StatLabel display="flex">
@@ -195,16 +194,17 @@ function RocketInfo({ launch }: LaunchBaseProps) {
             </Box>
           </StatLabel>
           <StatNumber fontSize={["md", "xl"]}>
-            {cores.map((core: any) => core.core_serial).join(", ")}
+            {cores.map((core) => core.core_serial).join(", ")}
           </StatNumber>
           <StatHelpText>
-            {cores.every((core: any) => core.land_success)
+            {cores.every((core) => core.land_success)
               ? cores.length === 1
                 ? "Recovered"
                 : "All recovered"
               : "Lost"}
           </StatHelpText>
         </Stat>
+
         <Stat>
           <StatLabel display="flex">
             <Box as={Layers} width="1em" />{" "}
@@ -218,7 +218,7 @@ function RocketInfo({ launch }: LaunchBaseProps) {
           <StatHelpText>
             Payload:{" "}
             {launch.rocket.second_stage.payloads
-              .map((payload: any) => payload.payload_type)
+              .map((payload) => payload.payload_type)
               .join(", ")}
           </StatHelpText>
         </Stat>

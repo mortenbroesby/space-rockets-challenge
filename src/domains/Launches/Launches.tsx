@@ -9,12 +9,12 @@ import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LoadMoreButton } from "../../components/LoadMoreButton";
 import { noop } from "../../utils/misc";
-import { Launches } from "./types/launches";
+import { PastLaunches } from "../types";
 
 const PAGE_SIZE = 12;
 
 interface LaunchesBaseProps {
-  launch: Launches;
+  launch: PastLaunches;
 }
 
 export function LaunchesPage() {
@@ -32,7 +32,7 @@ export function LaunchesPage() {
     size = 0,
   } = useSpaceXPaginated("/launches/past", fetchOptions);
 
-  const safeData: Launches[] = Array.isArray(data) ? data : [];
+  const safeData: PastLaunches[] = Array.isArray(data) ? data : [];
   const gridContent = safeData
     .flat()
     .map((launch) => <LaunchItem launch={launch} key={launch.flight_number} />);

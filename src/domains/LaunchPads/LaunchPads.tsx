@@ -7,12 +7,13 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LoadMoreButton } from "../../components/LoadMoreButton";
 import { useSpaceXPaginated } from "../../utils";
 import { noop } from "../../utils/misc";
+import { LaunchPad } from "../types";
 
 const PAGE_SIZE = 12;
 
-/**
- * TODO: Add types to this page
- */
+interface LaunchPadBaseProps {
+  launchPad: LaunchPad;
+}
 
 export function LaunchPadsPage() {
   const {
@@ -21,11 +22,16 @@ export function LaunchPadsPage() {
     isValidating,
     size = 0,
     setSize = noop,
-  } = useSpaceXPaginated("/launchpads", {
+  } = useSpaceXPaginated<LaunchPad[]>("/launchpads", {
     limit: PAGE_SIZE,
   });
 
-  const safeData: any[] = Array.isArray(data) ? data : [];
+  const safeData: LaunchPad[] = Array.isArray(data) ? data : [];
+  const gridContent = safeData
+    .flat()
+    .map((launchPad) => (
+      <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
+    ));
 
   return (
     <div>
@@ -34,12 +40,7 @@ export function LaunchPadsPage() {
       />
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
-        {data &&
-          data
-            .flat()
-            .map((launchPad) => (
-              <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
-            ))}
+        {gridContent}
       </SimpleGrid>
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
@@ -51,7 +52,7 @@ export function LaunchPadsPage() {
   );
 }
 
-function LaunchPadItem({ launchPad }: any) {
+function LaunchPadItem({ launchPad }: LaunchPadBaseProps) {
   return (
     <Box
       as={Link}
@@ -95,6 +96,7 @@ function LaunchPadItem({ launchPad }: any) {
         >
           {launchPad.name}
         </Box>
+
         <Text color="gray.500" fontSize="sm">
           {launchPad.vehicles_launched.join(", ")}
         </Text>
