@@ -22,6 +22,10 @@ import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { LaunchItem } from "../Launches";
 
+/**
+ * TODO: Add types to this page
+ */
+
 export function LaunchPadPage() {
   let { launchPadId } = useParams();
   const { data: launchPad, error } = useSpaceX<any>(

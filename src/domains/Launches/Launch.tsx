@@ -28,6 +28,10 @@ import { formatDateTime } from "../../utils";
 import { Error } from "../../components/Error";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 
+/**
+ * TODO: Add types to this page
+ */
+
 interface LaunchBaseProps {
   launch: Launch;
 }

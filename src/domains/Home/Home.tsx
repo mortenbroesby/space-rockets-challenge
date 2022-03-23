@@ -19,11 +19,8 @@ interface PageLinkProps {
 const PageLink: FC<PageLinkProps> = (properties) => {
   const { url, children, ...remainingProps } = properties;
 
-  const ChakraLink: any = Link; // TODO: Fix types
-  const RouterLink: any = BrowserLink; // TODO: Fix types
-
   return (
-    <ChakraLink as={RouterLink} to={url} {...remainingProps}>
+    <Link as={BrowserLink} to={url} {...remainingProps}>
       <Flex
         justifyContent="space-between"
         p="6"
@@ -34,6 +31,6 @@ const PageLink: FC<PageLinkProps> = (properties) => {
         <Text fontSize="lg">{children}</Text>
         <Box as={ArrowRight} />
       </Flex>
-    </ChakraLink>
+    </Link>
   );
 };

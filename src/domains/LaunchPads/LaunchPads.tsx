@@ -10,6 +10,10 @@ import { noop } from "../../utils/misc";
 
 const PAGE_SIZE = 12;
 
+/**
+ * TODO: Add types to this page
+ */
+
 export function LaunchPadsPage() {
   const {
     data,

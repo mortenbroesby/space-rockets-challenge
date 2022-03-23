@@ -20,8 +20,6 @@ interface BreadcrumbsProps {
 export function Breadcrumbs(properties: BreadcrumbsProps) {
   const { items } = properties;
 
-  const ChakraBreadcrumbLink: any = BreadcrumbLink; // TODO: Fix types
-
   return (
     <Breadcrumb
       m="6"
@@ -32,12 +30,12 @@ export function Breadcrumbs(properties: BreadcrumbsProps) {
         const isCurrentPage = items.length === index + 1;
         return (
           <BreadcrumbItem isCurrentPage={isCurrentPage} key={item.label}>
-            <ChakraBreadcrumbLink
+            <BreadcrumbLink
               as={!isCurrentPage ? Link : undefined}
-              to={!isCurrentPage ? item.to : undefined}
+              to={!isCurrentPage ? item.to : (undefined as any)}
             >
               {item.label}
-            </ChakraBreadcrumbLink>
+            </BreadcrumbLink>
           </BreadcrumbItem>
         );
       })}
