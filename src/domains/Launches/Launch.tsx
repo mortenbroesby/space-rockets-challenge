@@ -125,15 +125,17 @@ function Header({ launch }: LaunchBaseProps) {
 }
 
 function TimeAndLocation({ launch }: LaunchBaseProps) {
-  const timezoneFormattedDate = formatDateTime(launch.launch_date_local, {
+  const { launch_date_local, launch_date_utc } = launch;
+
+  const timezoneFormattedDate = formatDateTime(launch_date_local, {
     keepTimezone: true,
   });
 
-  const userFormattedDate = formatDateTime(launch.launch_date_local, {
+  const userFormattedDate = formatDateTime(launch_date_local, {
     keepTimezone: false,
   });
 
-  const utcFormattedDate = formatDateTime(launch.launch_date_utc, {
+  const utcFormattedDate = formatDateTime(launch_date_utc, {
     keepTimezone: true,
   });
 
