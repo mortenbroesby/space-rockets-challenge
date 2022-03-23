@@ -141,8 +141,8 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
 
   const tooltipLabel = (
     <>
-      <Text>Local: {userFormattedDate}</Text>
-      <Text>UTC: {utcFormattedDate}</Text>
+      <Text fontSize="xs">Local: {userFormattedDate}</Text>
+      <Text fontSize="xs">UTC: {utcFormattedDate}</Text>
     </>
   );
 
