@@ -5,8 +5,8 @@ This document outlines a range of choices I have made while working on this chal
 I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
 ### Considerations
+- Consider state-management and storage options.
 - Add animations.
-- Add basic unit tests.
 
 # Future considerations
 - Add unit and/or end to end tests for the majority of the application.
