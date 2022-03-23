@@ -1,7 +1,8 @@
-import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
+
+import { NavBar } from "./NavBar";
 
 import {
   HomePage,
@@ -9,17 +10,19 @@ import {
   LaunchPage,
   LaunchPadsPage,
   LaunchPadPage,
+  FavoritesProvider,
+  FavoritesSection,
 } from "../domains";
-
-import { NavBar } from "./NavBar";
 
 export function Application() {
   return (
     <Router>
-      <ChakraProvider>
-        <CSSReset />
-        <RootComponents />
-      </ChakraProvider>
+      <FavoritesProvider>
+        <ChakraProvider>
+          <CSSReset />
+          <RootComponents />
+        </ChakraProvider>
+      </FavoritesProvider>
     </Router>
   );
 }
@@ -29,6 +32,7 @@ function RootComponents() {
     <div>
       <NavBar />
       <AppRoutes />
+      <FavoritesSection />
     </div>
   );
 }
