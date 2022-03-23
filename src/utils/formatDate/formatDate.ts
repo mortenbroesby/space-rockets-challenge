@@ -23,7 +23,7 @@ export function formatDateTime(
     ? moment.parseZone(targetDate)
     : moment(targetDate);
 
-  const formattedDate = parsedDate.format("MMMM DD, YYYY, hh:mm:ss Z");
+  const formattedDate = parsedDate.format("MMMM DD, YYYY, HH:mm:ss Z");
 
   const dateToString = formattedDate.toString().toLowerCase();
   const isInvalidDate = dateToString.includes("invalid");
