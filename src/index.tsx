@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 
 import { Application } from "./application";
 
-import { serviceWorker, reportWebVitals } from "./infrastructure";
+import { reportWebVitals } from "./infrastructure";
+import * as serviceWorker from "./service-worker";
 
 ReactDOM.render(
   <React.StrictMode>
