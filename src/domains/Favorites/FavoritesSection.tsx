@@ -1,23 +1,20 @@
 import {
-  Box,
   Drawer,
-  DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  Heading,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useFavoriteContext } from "./context";
 
 export function FavoritesSection() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const { isDrawerOpen, closeDrawer } = useFavoriteContext();
 
   return (
     <Drawer
       isOpen={isDrawerOpen}
       placement="right"
-      onClose={() => setIsDrawerOpen(false)}
+      onClose={() => closeDrawer()}
     >
       <DrawerOverlay />
 

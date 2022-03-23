@@ -1,54 +1,105 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   createContext,
-  Dispatch,
   FunctionComponent,
-  SetStateAction,
   useContext,
-  useMemo,
   useState,
 } from "react";
+
 import { noop } from "../../utils";
+import { Launch, LaunchPad } from "../types";
 
-import { FavoriteItem } from "./types";
-
-interface FavoriteContextType {
-  favorites: FavoriteItem[];
-  addToFavorites: (id: string) => boolean;
-  removeFromFavorites: (id: string) => boolean;
-  clearFavorites: () => void;
+export enum FavoriteType {
+  Launch = "Launch",
+  LaunchPad = "LaunchPad",
 }
 
-export const FavoriteContext = createContext<FavoriteContextType>({
-  favorites: [],
-  addToFavorites: noop,
-  removeFromFavorites: noop,
-  clearFavorites: noop,
-});
+export interface FavoritesStore {
+  launches: Launch[];
+  launchPads: LaunchPad[];
+}
 
-export const useMenuContext: () => FavoriteContextType = () => {
+interface FavoriteContextType {
+  favorites: FavoritesStore;
+  addToFavorites: (id: string, type: FavoriteType) => void;
+  removeFromFavorites: (id: string, type: FavoriteType) => void;
+  clearFavorites: () => void;
+  isDrawerOpen: boolean;
+  openDrawer: () => void;
+  toggleDrawer: () => void;
+  closeDrawer: () => void;
+}
+
+const initialStore: () => FavoritesStore = () => {
+  return {
+    launches: [],
+    launchPads: [],
+  };
+};
+
+const initialState: () => FavoriteContextType = () => {
+  return {
+    isDrawerOpen: false,
+    favorites: initialStore(),
+    addToFavorites: noop,
+    removeFromFavorites: noop,
+    clearFavorites: noop,
+    openDrawer: noop,
+    toggleDrawer: noop,
+    closeDrawer: noop,
+  };
+};
+
+export const FavoriteContext = createContext<FavoriteContextType>(
+  initialState()
+);
+
+export const useFavoriteContext: () => FavoriteContextType = () => {
   return useContext(FavoriteContext);
 };
 
 export const FavoritesProvider: FunctionComponent = ({ children }) => {
-  const [favorites, setFavorites] = useState([]);
+  const [isDrawerOpen, setDrawerOpenState] = useState(false);
+  const [favorites, setFavorites] = useState<FavoritesStore>(initialStore());
 
-  function addToFavorites(id: string) {
-    setFavorites([]);
-    return true;
+  function addToFavorites(id: string, type: FavoriteType) {
+    const currentState = Object.assign({}, favorites);
+    setFavorites(currentState);
   }
 
-  function removeFromFavorites(id: string) {
-    setFavorites([]);
-    return true;
+  function removeFromFavorites(id: string, type: FavoriteType) {
+    const currentState = Object.assign({}, favorites);
+    setFavorites(currentState);
   }
 
   function clearFavorites() {
-    setFavorites([]);
+    setFavorites(initialStore());
   }
 
-  const value = useMemo(
-    () => ({ favorites, addToFavorites, removeFromFavorites, clearFavorites }),
-    [favorites]
+  function openDrawer() {
+    setDrawerOpenState(true);
+  }
+
+  function toggleDrawer() {
+    setDrawerOpenState(!isDrawerOpen);
+  }
+
+  function closeDrawer() {
+    setDrawerOpenState(false);
+  }
+
+  const value = React.useMemo(
+    () => ({
+      favorites,
+      addToFavorites,
+      removeFromFavorites,
+      clearFavorites,
+      isDrawerOpen,
+      openDrawer,
+      toggleDrawer,
+      closeDrawer,
+    }),
+    [favorites, isDrawerOpen]
   );
 
   return (
