@@ -2,9 +2,7 @@ import React from "react";
 import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import { Error } from "../../components/Error";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
-import { LoadMoreButton } from "../../components/LoadMoreButton";
+import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
 import { useSpaceXPaginated } from "../../utils";
 import { noop } from "../../utils/misc";
 import { LaunchPad } from "../types";

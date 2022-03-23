@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 
 import { useSpaceXPaginated } from "../../utils";
 import { formatDate } from "../../utils";
-import { Error } from "../../components/Error";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
-import { LoadMoreButton } from "../../components/LoadMoreButton";
+import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
 import { noop } from "../../utils/misc";
 import { PastLaunches } from "../types";
 

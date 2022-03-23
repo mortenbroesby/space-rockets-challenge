@@ -18,8 +18,7 @@ import {
 } from "@chakra-ui/react";
 
 import { randomColor, useSpaceX } from "../../utils";
-import { Error } from "../../components/Error";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
+import { Error, Breadcrumbs } from "../../components";
 import { LaunchItem } from "../Launches";
 import { LaunchPad } from "../types";
 import { PastLaunches, Location } from "../types";

@@ -25,8 +25,7 @@ import { Launch } from "../types/launch";
 
 import { useSpaceX } from "../../utils";
 import { formatDateTime } from "../../utils";
-import { Error } from "../../components/Error";
-import { Breadcrumbs } from "../../components/Breadcrumbs";
+import { Error, Breadcrumbs } from "../../components";
 
 interface LaunchBaseProps {
   launch: Launch;
