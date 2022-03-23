@@ -34,6 +34,9 @@ This was decided for a range of reasons, some of which I've listed below:
 - Component properties are easier to look up, i.e. built-in mouse-hover support in VSCode and Webstorm.
 - Refactoring is easier.
 
+Example:
+- Found a bug in `../LaunchPad.tsx` related to incorrectly typed API (`launchPad.stats` vs `launchPad.status`)
+
 ---
 
 ## 🔗 Commit Convention
