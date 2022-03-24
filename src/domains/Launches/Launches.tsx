@@ -1,5 +1,13 @@
-import React from "react";
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Image,
+  SimpleGrid,
+  Text,
+  Flex,
+  IconButton,
+  Spacer,
+} from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
@@ -8,6 +16,7 @@ import { formatDate } from "../../utils";
 import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
 import { noop } from "../../utils/misc";
 import { PastLaunches } from "../types";
+import { Check } from "react-feather";
 
 const PAGE_SIZE = 12;
 
@@ -56,6 +65,14 @@ export function LaunchesPage() {
   );
 }
 
+const FavoriteButton = () => {
+  return (
+    <IconButton aria-label="Favorite">
+      <Check />
+    </IconButton>
+  );
+};
+
 export function LaunchItem({ launch }: LaunchesBaseProps) {
   return (
     <Box
@@ -89,47 +106,55 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
         objectPosition="bottom"
       />
 
-      <Box p="6">
-        <Box d="flex" alignItems="baseline">
-          {launch.launch_success ? (
-            <Badge px="2" variant="solid" colorScheme="green">
-              Successful
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" colorScheme="red">
-              Failed
-            </Badge>
-          )}
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+      <Flex>
+        <Box p="6">
+          <Box d="flex" alignItems="baseline">
+            {launch.launch_success ? (
+              <Badge px="2" variant="solid" colorScheme="green">
+                Successful
+              </Badge>
+            ) : (
+              <Badge px="2" variant="solid" colorScheme="red">
+                Failed
+              </Badge>
+            )}
+            <Box
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              textTransform="uppercase"
+              ml="2"
+            >
+              {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+            </Box>
           </Box>
+
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            isTruncated
+          >
+            {launch.mission_name}
+          </Box>
+
+          <Flex>
+            <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
+
+            <Text color="gray.500" ml="2" fontSize="sm">
+              {timeAgo(launch.launch_date_utc)}
+            </Text>
+          </Flex>
+
+          <Spacer />
         </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
-          {launch.mission_name}
-        </Box>
-
-        <Flex>
-          <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
-
-          <Text color="gray.500" ml="2" fontSize="sm">
-            {timeAgo(launch.launch_date_utc)}
-          </Text>
+        <Flex alignItems="center" marginLeft="auto" p="6">
+          <FavoriteButton />
         </Flex>
-      </Box>
+      </Flex>
     </Box>
   );
 }
