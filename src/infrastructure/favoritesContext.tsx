@@ -95,10 +95,10 @@ function initialiseCache(updateFn: (entry: EvictedFavorite) => void) {
 }
 
 export const FavoritesProvider: FunctionComponent = ({ children }) => {
-  initialiseCache(onCacheEviction);
-
   const [favorites, setFavorites] = useState<FavoriteItem[]>(initialStore());
   const [isDrawerOpen, setDrawerOpenState] = useState(false);
+
+  initialiseCache(onCacheEviction);
 
   function onCacheEviction() {
     updateFavorites();
@@ -144,6 +144,7 @@ export const FavoritesProvider: FunctionComponent = ({ children }) => {
   function clearFavorites() {
     launchesCache.clear();
     setFavorites(initialStore());
+    updateFavorites();
   }
 
   function openDrawer() {
