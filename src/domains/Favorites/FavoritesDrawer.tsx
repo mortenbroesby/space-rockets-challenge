@@ -5,9 +5,9 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/react";
-import { useFavoriteContext } from "./context";
+import { useFavoriteContext } from "../../infrastructure/favoritesContext";
 
-export function FavoritesSection() {
+export function FavoritesDrawer() {
   const { isDrawerOpen, closeDrawer } = useFavoriteContext();
 
   return (

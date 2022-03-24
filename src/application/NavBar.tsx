@@ -2,7 +2,7 @@ import { Flex, Text, Spacer, MenuItem } from "@chakra-ui/react";
 
 import { isDev } from "../utils";
 import { ColorModeSwitcher, DropdownMenu } from "../components";
-import { useFavoriteContext } from "../domains";
+import { useFavoriteContext } from "../infrastructure";
 
 export function NavBar() {
   const debugVersion = process.env.REACT_APP_VERSION ?? -1;

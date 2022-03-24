@@ -9851,6 +9851,11 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
+typescript-lru-cache@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/typescript-lru-cache/-/typescript-lru-cache-1.2.3.tgz#60cd8555d74c1979ba36a6b30e3bbc3ab51180d5"
+  integrity sha512-MWcXZiwWpa+6emCCt7BWl8vaDyGk1/ym2NvX1Z1lvI5pjSqVplvYtmHS11BVCsClLkBgVl1IBsyAK74ujselYA==
+
 typescript@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.2.tgz#fe12d2727b708f4eef40f51598b3398baa9611d4"

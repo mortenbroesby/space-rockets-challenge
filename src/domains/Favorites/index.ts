@@ -1,3 +1,2 @@
-export * from "./FavoritesSection";
+export * from "./FavoritesDrawer";
 export * from "./types";
-export * from "./context";

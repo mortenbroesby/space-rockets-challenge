@@ -21,7 +21,7 @@ import { randomColor, useSpaceX } from "../../utils";
 import { Error, Breadcrumbs } from "../../components";
 import { LaunchItem } from "../Launches";
 import { LaunchPad } from "../types";
-import { PastLaunches, Location } from "../types";
+import { Launch, Location } from "../types";
 
 interface LaunchPadBaseProps {
   launchPad: LaunchPad;
@@ -34,7 +34,7 @@ export function LaunchPadPage() {
     `/launchpads/${launchPadId}`
   );
 
-  const { data: launches } = useSpaceX<PastLaunches>(
+  const { data: launches } = useSpaceX<Launch>(
     launchPad ? "/launches/past" : null,
     {
       limit: 3,
@@ -44,7 +44,7 @@ export function LaunchPadPage() {
     }
   );
 
-  const safeLaunches: PastLaunches[] = Array.isArray(launches) ? launches : [];
+  const safeLaunches: Launch[] = Array.isArray(launches) ? launches : [];
 
   if (error) {
     return <Error />;
@@ -170,7 +170,7 @@ function Map({ location }: MapProps) {
 }
 
 interface RecentLaunchesProps {
-  launches: PastLaunches[];
+  launches: Launch[];
 }
 
 function RecentLaunches({ launches }: RecentLaunchesProps) {

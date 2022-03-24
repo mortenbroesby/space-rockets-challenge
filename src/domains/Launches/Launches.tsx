@@ -10,18 +10,19 @@ import {
 } from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
+import { Check, Star } from "react-feather";
 
 import { useSpaceXPaginated } from "../../utils";
 import { formatDate } from "../../utils";
 import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
 import { noop } from "../../utils/misc";
-import { PastLaunches } from "../types";
-import { Check } from "react-feather";
+import { Launch } from "../types";
+import { useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
 
 interface LaunchesBaseProps {
-  launch: PastLaunches;
+  launch: Launch;
 }
 
 export function LaunchesPage() {
@@ -39,7 +40,7 @@ export function LaunchesPage() {
     size = 0,
   } = useSpaceXPaginated("/launches/past", fetchOptions);
 
-  const safeData: PastLaunches[] = Array.isArray(data) ? data : [];
+  const safeData: Launch[] = Array.isArray(data) ? data : [];
   const gridContent = safeData
     .flat()
     .map((launch) => <LaunchItem launch={launch} key={launch.flight_number} />);
@@ -65,19 +66,64 @@ export function LaunchesPage() {
   );
 }
 
-const FavoriteButton = () => {
+const FavoriteButton = ({
+  onClick,
+  isFavorited,
+}: {
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  isFavorited: boolean;
+}) => {
   return (
-    <IconButton aria-label="Favorite">
-      <Check />
+    <IconButton aria-label="Favorite" onClick={(event) => onClick(event)}>
+      {isFavorited ? <Check /> : <Star />}
     </IconButton>
   );
 };
 
 export function LaunchItem({ launch }: LaunchesBaseProps) {
+  const { isFavorited, addToFavorites, removeFromFavorites } =
+    useFavoriteContext();
+
+  const {
+    flight_number,
+    links,
+    mission_name,
+    launch_success,
+    rocket,
+    launch_date_utc,
+    launch_site,
+  } = launch;
+
+  const flightNumberId = String(flight_number);
+  const isFlightFavorited = isFavorited(flightNumberId);
+
+  const setFavorite = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    flightNumberId: string,
+    isFavorited: boolean
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isFavorited) {
+      return removeFromFavorites({
+        id: flightNumberId,
+        type: "Launch",
+        payload: launch,
+      });
+    } else {
+      return addToFavorites({
+        id: flightNumberId,
+        type: "Launch",
+        payload: launch,
+      });
+    }
+  };
+
   return (
     <Box
       as={Link}
-      to={`/launches/${launch.flight_number.toString()}`}
+      to={`/launches/${flightNumberId}`}
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
@@ -86,10 +132,10 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
     >
       <Image
         src={
-          launch.links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??
-          launch.links.mission_patch_small
+          links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??
+          links.mission_patch_small
         }
-        alt={`${launch.mission_name} launch`}
+        alt={`${mission_name} launch`}
         height={["200px", null, "300px"]}
         width="100%"
         objectFit="cover"
@@ -100,7 +146,7 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
         position="absolute"
         top="5"
         right="5"
-        src={launch.links.mission_patch_small}
+        src={links.mission_patch_small}
         height="75px"
         objectFit="contain"
         objectPosition="bottom"
@@ -109,7 +155,7 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
       <Flex>
         <Box p="6">
           <Box d="flex" alignItems="baseline">
-            {launch.launch_success ? (
+            {launch_success ? (
               <Badge px="2" variant="solid" colorScheme="green">
                 Successful
               </Badge>
@@ -126,7 +172,7 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
               textTransform="uppercase"
               ml="2"
             >
-              {launch.rocket.rocket_name} &bull; {launch.launch_site.site_name}
+              {rocket.rocket_name} &bull; {launch_site.site_name}
             </Box>
           </Box>
 
@@ -137,14 +183,14 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
             lineHeight="tight"
             isTruncated
           >
-            {launch.mission_name}
+            {mission_name}
           </Box>
 
           <Flex>
-            <Text fontSize="sm">{formatDate(launch.launch_date_utc)} </Text>
+            <Text fontSize="sm">{formatDate(launch_date_utc)} </Text>
 
             <Text color="gray.500" ml="2" fontSize="sm">
-              {timeAgo(launch.launch_date_utc)}
+              {timeAgo(launch_date_utc)}
             </Text>
           </Flex>
 
@@ -152,7 +198,12 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
         </Box>
 
         <Flex alignItems="center" marginLeft="auto" p="6">
-          <FavoriteButton />
+          <FavoriteButton
+            isFavorited={isFlightFavorited}
+            onClick={(event) => {
+              setFavorite(event, flightNumberId, isFlightFavorited);
+            }}
+          />
         </Flex>
       </Flex>
     </Box>

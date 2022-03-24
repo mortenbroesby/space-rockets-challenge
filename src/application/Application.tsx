@@ -4,14 +4,15 @@ import { Routes, Route } from "react-router-dom";
 
 import { NavBar } from "./NavBar";
 
+import { FavoritesProvider } from "../infrastructure";
+
 import {
   HomePage,
   LaunchesPage,
   LaunchPage,
   LaunchPadsPage,
   LaunchPadPage,
-  FavoritesProvider,
-  FavoritesSection,
+  FavoritesDrawer,
 } from "../domains";
 
 export function Application() {
@@ -32,7 +33,7 @@ function RootComponents() {
     <div>
       <NavBar />
       <AppRoutes />
-      <FavoritesSection />
+      <FavoritesDrawer />
     </div>
   );
 }
