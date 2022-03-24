@@ -109,7 +109,6 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
       return removeFromFavorites({
         id: flightNumberId,
         type: "Launch",
-        payload: launch,
       });
     } else {
       return addToFavorites({

@@ -19,10 +19,12 @@ export interface FavoriteItem {
   payload: FavoritePayload;
 }
 
+export type RemoveFavoriteItem = Omit<FavoriteItem, "payload">;
+
 interface FavoriteContextType {
   favorites: FavoriteItem[];
   addToFavorites: (item: FavoriteItem) => void;
-  removeFromFavorites: (item: FavoriteItem) => void;
+  removeFromFavorites: (item: RemoveFavoriteItem) => void;
   clearFavorites: () => void;
   isFavorited: (id: string) => boolean;
   isDrawerOpen: boolean;
@@ -57,22 +59,45 @@ export const useFavoriteContext: () => FavoriteContextType = () => {
 };
 
 const cacheSize = 3;
+let isCacheInitialised = false;
 
-let favoritesCache: LRUCache<string, FavoriteItem>;
+let launchesCache: LRUCache<string, FavoriteItem>;
+let launchPadCache: LRUCache<string, FavoriteItem>;
+
+interface EvictedFavorite {
+  key: string;
+  value: FavoriteItem;
+  isExpired: boolean;
+}
+
+function initialiseCache(updateFn: (entry: EvictedFavorite) => void) {
+  if (isCacheInitialised) return;
+  isCacheInitialised = true;
+
+  launchesCache = new LRUCache<string, FavoriteItem>({
+    maxSize: cacheSize,
+    onEntryEvicted: (entry) => {
+      updateFn(entry);
+    },
+  });
+
+  launchPadCache = new LRUCache<string, FavoriteItem>({
+    maxSize: cacheSize,
+    onEntryEvicted: (entry) => {
+      updateFn(entry);
+    },
+  });
+}
 
 export const FavoritesProvider: FunctionComponent = ({ children }) => {
-  if (!favoritesCache) {
-    favoritesCache = new LRUCache<string, FavoriteItem>({
-      maxSize: cacheSize,
-      onEntryEvicted: () => {
-        updateFavorites();
-      },
-    });
-  }
+  initialiseCache(onCacheEviction);
 
   const [favorites, setFavorites] = useState<FavoriteItem[]>(initialStore());
-  const [lastUpdatedTimestamp, setUpdatedTimestamp] = useState(Date.now());
   const [isDrawerOpen, setDrawerOpenState] = useState(false);
+
+  function onCacheEviction() {
+    updateFavorites();
+  }
 
   function isFavorited(favoriteId: string): boolean {
     const cacheEntry = favorites.find((item) => item.id.includes(favoriteId));
@@ -80,28 +105,41 @@ export const FavoritesProvider: FunctionComponent = ({ children }) => {
   }
 
   function addToFavorites({ id, type, payload }: FavoriteItem) {
-    favoritesCache.set(id, { id, type, payload });
+    if (type === "Launch") {
+      launchesCache.set(id, { id, type, payload });
+    } else {
+      launchPadCache.set(id, { id, type, payload });
+    }
+
     updateFavorites();
   }
 
-  function removeFromFavorites({ id }: FavoriteItem) {
-    favoritesCache.delete(id);
+  function removeFromFavorites({ id, type }: RemoveFavoriteItem) {
+    if (type === "Launch") {
+      launchesCache.delete(id);
+    } else {
+      launchPadCache.delete(id);
+    }
+
     updateFavorites();
   }
 
   function updateFavorites() {
     const updatedFavorites: FavoriteItem[] = [];
 
-    favoritesCache.forEach((item) => {
+    launchesCache.forEach((item) => {
+      updatedFavorites.push(item);
+    });
+
+    launchPadCache.forEach((item) => {
       updatedFavorites.push(item);
     });
 
     setFavorites(updatedFavorites);
-    setUpdatedTimestamp(Date.now());
   }
 
   function clearFavorites() {
-    favoritesCache.clear();
+    launchesCache.clear();
     setFavorites(initialStore());
   }
 
@@ -124,7 +162,7 @@ export const FavoritesProvider: FunctionComponent = ({ children }) => {
       openDrawer,
       closeDrawer,
     }),
-    [favorites, lastUpdatedTimestamp, isDrawerOpen]
+    [favorites, isDrawerOpen]
   );
 
   return (
