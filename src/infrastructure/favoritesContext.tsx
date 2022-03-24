@@ -64,6 +64,11 @@ let isCacheInitialised = false;
 let launchesCache: LRUCache<string, FavoriteItem>;
 let launchPadCache: LRUCache<string, FavoriteItem>;
 
+const favoriteCacheMap = {
+  Launch: () => launchesCache,
+  LaunchPad: () => launchPadCache,
+};
+
 interface EvictedFavorite {
   key: string;
   value: FavoriteItem;
@@ -105,34 +110,32 @@ export const FavoritesProvider: FunctionComponent = ({ children }) => {
   }
 
   function addToFavorites({ id, type, payload }: FavoriteItem) {
-    if (type === "Launch") {
-      launchesCache.set(id, { id, type, payload });
-    } else {
-      launchPadCache.set(id, { id, type, payload });
+    const targetCache = favoriteCacheMap[type];
+    if (!targetCache) {
+      throw new Error("Cache type does not exist");
     }
 
+    targetCache().set(id, { id, type, payload });
     updateFavorites();
   }
 
   function removeFromFavorites({ id, type }: RemoveFavoriteItem) {
-    if (type === "Launch") {
-      launchesCache.delete(id);
-    } else {
-      launchPadCache.delete(id);
+    const targetCache = favoriteCacheMap[type];
+    if (!targetCache) {
+      throw new Error("Cache type does not exist");
     }
 
+    targetCache().delete(id);
     updateFavorites();
   }
 
   function updateFavorites() {
     const updatedFavorites: FavoriteItem[] = [];
 
-    launchesCache.forEach((item) => {
-      updatedFavorites.push(item);
-    });
-
-    launchPadCache.forEach((item) => {
-      updatedFavorites.push(item);
+    Object.values(favoriteCacheMap).forEach((cacheEntry) => {
+      cacheEntry().forEach((item) => {
+        updatedFavorites.push(item);
+      });
     });
 
     setFavorites(updatedFavorites);
