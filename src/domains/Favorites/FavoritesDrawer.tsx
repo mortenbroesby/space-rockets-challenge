@@ -4,11 +4,17 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  DrawerBody,
+  Text,
 } from "@chakra-ui/react";
-import { useFavoriteContext } from "../../infrastructure/favoritesContext";
+
+import { useFavoriteContext } from "../../infrastructure";
 
 export function FavoritesDrawer() {
-  const { isDrawerOpen, closeDrawer } = useFavoriteContext();
+  const { favorites, isDrawerOpen, closeDrawer } = useFavoriteContext();
+
+  const launches = favorites.filter((item) => item.type === "Launch");
+  const launchPads = favorites.filter((item) => item.type === "LaunchPad");
 
   return (
     <Drawer
@@ -22,6 +28,11 @@ export function FavoritesDrawer() {
         <DrawerCloseButton />
 
         <DrawerHeader>Favorites</DrawerHeader>
+
+        <DrawerBody>
+          <Text>Launches: {launches.length}</Text>
+          <Text>LaunchPads: {launchPads.length}</Text>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   );
