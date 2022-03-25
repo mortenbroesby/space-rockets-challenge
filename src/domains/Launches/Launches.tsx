@@ -1,18 +1,14 @@
-import {
-  Badge,
-  Box,
-  Image,
-  SimpleGrid,
-  Text,
-  Flex,
-  IconButton,
-} from "@chakra-ui/react";
+import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
-import { Check, Star } from "react-feather";
 
+import {
+  Error,
+  Breadcrumbs,
+  LoadMoreButton,
+  FavoriteButton,
+} from "../../components";
 import { useSpaceXPaginated, noop, formatDate } from "../../utils";
-import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
 import { Launch, useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
@@ -61,20 +57,6 @@ export function LaunchesPage() {
     </div>
   );
 }
-
-const FavoriteButton = ({
-  onClick,
-  isFavorited,
-}: {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  isFavorited: boolean;
-}) => {
-  return (
-    <IconButton aria-label="Favorite" onClick={(event) => onClick(event)}>
-      {isFavorited ? <Check /> : <Star />}
-    </IconButton>
-  );
-};
 
 export function LaunchItem({ launch }: LaunchesBaseProps) {
   const { isFavorited, addToFavorites, removeFromFavorites } =
@@ -147,6 +129,15 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
         objectPosition="bottom"
       />
 
+      <Flex position="absolute" top="5" right="5">
+        <FavoriteButton
+          isFavorited={isFlightFavorited}
+          onClick={(event) => {
+            setFavorite(event, flightNumberId, isFlightFavorited);
+          }}
+        />
+      </Flex>
+
       <Flex>
         <Box p="6">
           <Box d="flex" alignItems="baseline">
@@ -189,15 +180,6 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
             </Text>
           </Flex>
         </Box>
-
-        <Flex alignItems="center" marginLeft="auto" p="6">
-          <FavoriteButton
-            isFavorited={isFlightFavorited}
-            onClick={(event) => {
-              setFavorite(event, flightNumberId, isFlightFavorited);
-            }}
-          />
-        </Flex>
       </Flex>
     </Box>
   );

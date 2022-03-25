@@ -61,7 +61,7 @@ export const useFavoriteContext: () => FavoriteContextType = () => {
   return useContext(FavoriteContext);
 };
 
-const cacheSize = 3;
+const cacheSize = 10;
 
 let launchesCache: LRUCache<string, FavoriteItem>;
 let launchPadCache: LRUCache<string, FavoriteItem>;

@@ -1,5 +1,6 @@
-import { IconButton } from "@chakra-ui/react";
-import { Check, Star } from "react-feather";
+import { Box, IconButton } from "@chakra-ui/react";
+import { Star } from "react-feather";
+
 import { noop } from "../../utils";
 
 export const FavoriteButton = ({
@@ -12,15 +13,22 @@ export const FavoriteButton = ({
   size?: "medium" | "small";
 }) => {
   const buttonSize = size === "medium" ? "md" : "sm";
-  const iconSize = size === "medium" ? 24 : 12;
+  const iconSize = size === "medium" ? 24 : 18;
 
   return (
-    <IconButton
-      aria-label="Favorite"
-      onClick={(event) => (onClick ? onClick(event) : noop)}
-      size={buttonSize}
-    >
-      {isFavorited ? <Check size={iconSize} /> : <Star size={iconSize} />}
-    </IconButton>
+    <Box>
+      <IconButton
+        aria-label="Favorite"
+        onClick={(event) => (onClick ? onClick(event) : noop)}
+        size={buttonSize}
+        color={isFavorited ? "rgba(255, 255, 255, 1)" : "rgba(0, 0, 0, 1)"}
+        colorScheme={isFavorited ? "green" : "whiteAlpha"}
+        borderRadius={"50%"}
+        borderWidth="1px"
+        boxShadow="md"
+      >
+        <Star size={iconSize} />
+      </IconButton>
+    </Box>
   );
 };
