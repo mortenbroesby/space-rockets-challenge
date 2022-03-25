@@ -1,10 +1,14 @@
-import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { Badge, Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
+import {
+  Error,
+  Breadcrumbs,
+  LoadMoreButton,
+  FavoriteButton,
+} from "../../components";
 import { useSpaceXPaginated, noop } from "../../utils";
-import { LaunchPad } from "../../infrastructure";
+import { LaunchPad, useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
 
@@ -50,54 +54,95 @@ export function LaunchPadsPage() {
 }
 
 function LaunchPadItem({ launchPad }: LaunchPadBaseProps) {
+  const { isFavorited, addToFavorites, removeFromFavorites } =
+    useFavoriteContext();
+
+  const { site_id } = launchPad;
+
+  const siteId = String(site_id);
+  const isPadFavorited = isFavorited(siteId);
+
+  const setFavorite = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    siteId: string,
+    isFavorited: boolean
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isFavorited) {
+      return removeFromFavorites({
+        id: siteId,
+        type: "LaunchPad",
+      });
+    } else {
+      return addToFavorites({
+        id: siteId,
+        type: "LaunchPad",
+        payload: launchPad,
+      });
+    }
+  };
+
   return (
     <Box
       as={Link}
-      to={`/launch-pads/${launchPad.site_id}`}
+      to={`/launch-pads/${siteId}`}
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
       overflow="hidden"
       position="relative"
     >
-      <Box p="6">
-        <Box d="flex" alignItems="baseline">
-          {launchPad.status === "active" ? (
-            <Badge px="2" variant="solid" colorScheme="green">
-              Active
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" colorScheme="red">
-              Retired
-            </Badge>
-          )}
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            {launchPad.attempted_launches} attempted &bull;{" "}
-            {launchPad.successful_launches} succeeded
+      <Flex>
+        <Box p="6">
+          <Box d="flex" alignItems="baseline">
+            {launchPad.status === "active" ? (
+              <Badge px="2" variant="solid" colorScheme="green">
+                Active
+              </Badge>
+            ) : (
+              <Badge px="2" variant="solid" colorScheme="red">
+                Retired
+              </Badge>
+            )}
+            <Box
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              textTransform="uppercase"
+              ml="2"
+            >
+              {launchPad.attempted_launches} attempted &bull;{" "}
+              {launchPad.successful_launches} succeeded
+            </Box>
           </Box>
+
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            isTruncated
+          >
+            {launchPad.name}
+          </Box>
+
+          <Text color="gray.500" fontSize="sm">
+            {launchPad.vehicles_launched.join(", ")}
+          </Text>
         </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
-          {launchPad.name}
-        </Box>
-
-        <Text color="gray.500" fontSize="sm">
-          {launchPad.vehicles_launched.join(", ")}
-        </Text>
-      </Box>
+        <Flex alignItems="center" marginLeft="auto" p="6">
+          <FavoriteButton
+            isFavorited={isPadFavorited}
+            onClick={(event) => {
+              setFavorite(event, siteId, isPadFavorited);
+            }}
+          />
+        </Flex>
+      </Flex>
     </Box>
   );
 }
