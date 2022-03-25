@@ -5,8 +5,8 @@ This document outlines a range of choices I have made while working on this chal
 I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
 ## Future considerations
-- Add unit and/or end to end tests for the majority of the application.
-- Potentially add service-worker to offload API fetching and offline caching.
+- Add unit and end to end tests to cover the majority of the application.
+- Potentially add service-worker to offload API fetching, heavy computations and offline caching.
 - Consider properly typing SpaceX API, instead of using quicktype.
 - Round of TLC in terms of accessibility and SEO.
 - Pull out domain-specific fetching hooks into wrapper hooks.
@@ -23,7 +23,6 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 - Find a way to get the local dates with UTC offset from the SpaceX API, instead of the browser offset.
 - If this was a production application:
   - Go through application and ensure dark-mode looks good everywhere.
-  - Properly fix the existing source-map issue with Timeago.js.
 
 
 ---
