@@ -61,7 +61,7 @@ export function LaunchPadsPage() {
         scrollableTarget="scrollableDiv"
         scrollThreshold={0.9}
       >
-        <SimpleGrid minChildWidth="350px" spacing="4" p={[2, null, 6]}>
+        <SimpleGrid minChildWidth="350px" spacing="4" p={[4, null, 6]}>
           {safeData.flat().map((launchPad) => (
             <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
           ))}
