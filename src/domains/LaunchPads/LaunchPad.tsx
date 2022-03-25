@@ -18,9 +18,14 @@ import {
 } from "@chakra-ui/react";
 
 import { randomColor, useSpaceX } from "../../utils";
-import { Error, Breadcrumbs } from "../../components";
+import { Error, Breadcrumbs, FavoriteButton } from "../../components";
 import { LaunchItem } from "../Launches";
-import { LaunchPad, Launch, Location } from "../../infrastructure";
+import {
+  LaunchPad,
+  Launch,
+  Location,
+  useFavoriteContext,
+} from "../../infrastructure";
 
 interface LaunchPadBaseProps {
   launchPad: LaunchPad;
@@ -66,13 +71,18 @@ export function LaunchPadPage() {
           { label: launchPad.name },
         ]}
       />
+
       <Header launchPad={launchPad} />
+
       <Box m={[3, 6]}>
         <LocationAndVehicles launchPad={launchPad} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
+
+        <Text fontSize={["md", null, "lg"]} my="8">
           {launchPad.details}
         </Text>
+
         <Map location={launchPad.location} />
+
         <RecentLaunches launches={safeLaunches} />
       </Box>
     </div>
@@ -80,6 +90,36 @@ export function LaunchPadPage() {
 }
 
 function Header({ launchPad }: LaunchPadBaseProps) {
+  const { isFavorited, addToFavorites, removeFromFavorites } =
+    useFavoriteContext();
+
+  const { site_id } = launchPad;
+
+  const siteId = String(site_id);
+  const isPadFavorited = isFavorited(siteId);
+
+  const setFavorite = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    flightNumberId: string,
+    isFavorited: boolean
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isFavorited) {
+      return removeFromFavorites({
+        id: flightNumberId,
+        type: "LaunchPad",
+      });
+    } else {
+      return addToFavorites({
+        id: flightNumberId,
+        type: "LaunchPad",
+        payload: launchPad,
+      });
+    }
+  };
+
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -93,6 +133,13 @@ function Header({ launchPad }: LaunchPadBaseProps) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
+      <Box position="absolute" top="5" right="5">
+        <FavoriteButton
+          isFavorited={isPadFavorited}
+          onClick={(event) => setFavorite(event, siteId, isPadFavorited)}
+        />
+      </Box>
+
       <Heading
         color="gray.900"
         display="inline"
@@ -103,11 +150,13 @@ function Header({ launchPad }: LaunchPadBaseProps) {
       >
         {launchPad.site_name_long}
       </Heading>
+
       <Stack isInline spacing="3">
         <Badge colorScheme="purple" fontSize={["sm", "md"]}>
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
+
         {launchPad.status === "active" ? (
           <Badge colorScheme="green" fontSize={["sm", "md"]}>
             Active
@@ -135,6 +184,7 @@ function LocationAndVehicles({ launchPad }: LaunchPadBaseProps) {
         <StatNumber fontSize="xl">{launchPad.location.name}</StatNumber>
         <StatHelpText>{launchPad.location.region}</StatHelpText>
       </Stat>
+
       <Stat>
         <StatLabel display="flex">
           <Box as={Navigation} width="1em" />{" "}
@@ -142,6 +192,7 @@ function LocationAndVehicles({ launchPad }: LaunchPadBaseProps) {
             Vehicles
           </Box>
         </StatLabel>
+
         <StatNumber fontSize="xl">
           {launchPad.vehicles_launched.join(", ")}
         </StatNumber>

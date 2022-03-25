@@ -1,12 +1,13 @@
 import { IconButton } from "@chakra-ui/react";
 import { Check, Star } from "react-feather";
+import { noop } from "../../utils";
 
 export const FavoriteButton = ({
   onClick,
   isFavorited,
   size = "medium",
 }: {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   isFavorited: boolean;
   size?: "medium" | "small";
 }) => {
@@ -16,7 +17,7 @@ export const FavoriteButton = ({
   return (
     <IconButton
       aria-label="Favorite"
-      onClick={(event) => onClick(event)}
+      onClick={(event) => (onClick ? onClick(event) : noop)}
       size={buttonSize}
     >
       {isFavorited ? <Check size={iconSize} /> : <Star size={iconSize} />}

@@ -1,7 +1,7 @@
-import { Flex, Text, Spacer, MenuItem } from "@chakra-ui/react";
+import { Flex, Text, Spacer, Button } from "@chakra-ui/react";
 
 import { isDev } from "../utils";
-import { ColorModeSwitcher, DropdownMenu } from "../components";
+import { ColorModeSwitcher } from "../components";
 import { useFavoriteContext } from "../infrastructure";
 
 export function NavBar() {
@@ -33,13 +33,9 @@ export function NavBar() {
 
       <Spacer />
 
-      <DropdownMenu
-        menuItems={[
-          <MenuItem key="favorites" onClick={() => openDrawer()}>
-            Favorites
-          </MenuItem>,
-        ]}
-      />
+      <Button colorScheme="blue" onClick={() => openDrawer()}>
+        Favorites
+      </Button>
 
       <ColorModeSwitcher />
     </Flex>

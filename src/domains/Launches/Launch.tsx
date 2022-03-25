@@ -22,9 +22,9 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
-import { Launch } from "../../infrastructure";
+import { Launch, useFavoriteContext } from "../../infrastructure";
 import { useSpaceX, formatDateTime } from "../../utils";
-import { Error, Breadcrumbs } from "../../components";
+import { Error, Breadcrumbs, FavoriteButton } from "../../components";
 
 interface LaunchBaseProps {
   launch: Launch;
@@ -59,10 +59,13 @@ export function LaunchPage() {
       <Header launch={launch} />
       <Box m={[3, 6]}>
         <TimeAndLocation launch={launch} />
+
         <RocketInfo launch={launch} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
+
+        <Text fontSize={["md", null, "lg"]} my="8">
           {launch.details}
         </Text>
+
         <Video launch={launch} />
         <Gallery images={launch.links.flickr_images} />
       </Box>
@@ -71,6 +74,36 @@ export function LaunchPage() {
 }
 
 function Header({ launch }: LaunchBaseProps) {
+  const { isFavorited, addToFavorites, removeFromFavorites } =
+    useFavoriteContext();
+
+  const { flight_number } = launch;
+
+  const flightNumberId = String(flight_number);
+  const isFlightFavorited = isFavorited(flightNumberId);
+
+  const setFavorite = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    flightNumberId: string,
+    isFavorited: boolean
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isFavorited) {
+      return removeFromFavorites({
+        id: flightNumberId,
+        type: "Launch",
+      });
+    } else {
+      return addToFavorites({
+        id: flightNumberId,
+        type: "Launch",
+        payload: launch,
+      });
+    }
+  };
+
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -92,19 +125,30 @@ function Header({ launch }: LaunchBaseProps) {
         objectFit="contain"
         objectPosition="bottom"
       />
+
+      <Box position="absolute" top="5" right="5">
+        <FavoriteButton
+          isFavorited={isFlightFavorited}
+          onClick={(event) =>
+            setFavorite(event, flightNumberId, isFlightFavorited)
+          }
+        />
+      </Box>
+
       <Heading
         color="white"
         display="inline"
         backgroundColor="#718096b8"
-        fontSize={["lg", "5xl"]}
+        fontSize={["sm", "lg", "5xl"]}
         px="4"
         py="2"
         borderRadius="lg"
+        mr="5"
       >
         {launch.mission_name}
       </Heading>
 
-      <Stack isInline spacing="3">
+      <Stack isInline spacing="3" alignSelf="flex-end">
         <Badge colorScheme="purple" fontSize={["xs", "md"]}>
           #{launch.flight_number}
         </Badge>
@@ -216,9 +260,11 @@ function RocketInfo({ launch }: LaunchBaseProps) {
               First Stage
             </Box>
           </StatLabel>
+
           <StatNumber fontSize={["md", "xl"]}>
             {cores.map((core) => core.core_serial).join(", ")}
           </StatNumber>
+
           <StatHelpText>
             {cores.every((core) => core.land_success)
               ? cores.length === 1
@@ -235,9 +281,11 @@ function RocketInfo({ launch }: LaunchBaseProps) {
               Second Stage
             </Box>
           </StatLabel>
+
           <StatNumber fontSize={["md", "xl"]}>
             Block {launch.rocket.second_stage.block}
           </StatNumber>
+
           <StatHelpText>
             Payload:{" "}
             {launch.rocket.second_stage.payloads
