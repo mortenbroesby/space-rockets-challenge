@@ -1,5 +1,6 @@
 import { Flex, Text, Spacer, Button, Box } from "@chakra-ui/react";
 import { Star } from "react-feather";
+import { Link as BrowserLink } from "react-router-dom";
 
 import { ColorModeSwitcher } from "../components";
 import { useFavoriteContext } from "../infrastructure";
@@ -19,14 +20,16 @@ export function NavBar() {
       zIndex={2}
       width="100%"
     >
-      <Text
-        fontFamily="mono"
-        letterSpacing="2px"
-        fontWeight="bold"
-        fontSize="lg"
-      >
-        ¡SPACE·R0CKETS!
-      </Text>
+      <Box as={BrowserLink} to={"/"}>
+        <Text
+          fontFamily="mono"
+          letterSpacing="2px"
+          fontWeight="bold"
+          fontSize="lg"
+        >
+          ¡SPACE·R0CKETS!
+        </Text>
+      </Box>
 
       <Spacer />
 
