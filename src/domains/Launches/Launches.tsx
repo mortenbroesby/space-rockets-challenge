@@ -6,7 +6,6 @@ import {
   Text,
   Flex,
   IconButton,
-  Spacer,
 } from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
@@ -189,8 +188,6 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
               {timeAgo(launch_date_utc)}
             </Text>
           </Flex>
-
-          <Spacer />
         </Box>
 
         <Flex alignItems="center" marginLeft="auto" p="6">
