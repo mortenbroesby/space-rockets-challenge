@@ -5,6 +5,11 @@ This document outlines a range of choices I have made while working on this chal
 I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
 ## Future considerations
+- Nice animations throughout the application. I considered focusing on this, but decided not to.
+- Adding other sections to the application.
+   - Page with interactive chat to interact and discuss with others.
+   - Page with upcoming launches.
+- Ensure that components are properly kept DRY and kept performant using benchmarks.
 - Add extensive unit and end to end tests to cover the majority of the application.
 - Find a way to get the SpaceX API local dates with UTC offset, instead of the browser offset (in EU GMT+1).
 - Properly type SpaceX API, instead of using quicktype.
