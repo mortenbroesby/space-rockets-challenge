@@ -8,8 +8,8 @@ import React, {
 } from "react";
 import { LRUCache } from "typescript-lru-cache";
 
-import { LocalStorage, noop } from "../utils";
-import { Launch, LaunchPad } from "../domains";
+import { LocalStorage, noop } from "../../utils";
+import { Launch, LaunchPad } from "../types";
 
 const LocalStorageKey = "Favorites";
 

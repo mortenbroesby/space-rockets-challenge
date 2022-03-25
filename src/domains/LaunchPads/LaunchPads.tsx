@@ -3,9 +3,8 @@ import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
-import { useSpaceXPaginated } from "../../utils";
-import { noop } from "../../utils/misc";
-import { LaunchPad } from "../types";
+import { useSpaceXPaginated, noop } from "../../utils";
+import { LaunchPad } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
 

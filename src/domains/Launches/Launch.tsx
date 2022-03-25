@@ -22,10 +22,8 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
-import { Launch } from "../types/launch";
-
-import { useSpaceX } from "../../utils";
-import { formatDateTime } from "../../utils";
+import { Launch } from "../../infrastructure";
+import { useSpaceX, formatDateTime } from "../../utils";
 import { Error, Breadcrumbs } from "../../components";
 
 interface LaunchBaseProps {

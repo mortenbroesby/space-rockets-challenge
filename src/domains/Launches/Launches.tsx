@@ -12,12 +12,9 @@ import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 import { Check, Star } from "react-feather";
 
-import { useSpaceXPaginated } from "../../utils";
-import { formatDate } from "../../utils";
+import { useSpaceXPaginated, noop, formatDate } from "../../utils";
 import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
-import { noop } from "../../utils/misc";
-import { Launch } from "../types";
-import { useFavoriteContext } from "../../infrastructure";
+import { Launch, useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
 

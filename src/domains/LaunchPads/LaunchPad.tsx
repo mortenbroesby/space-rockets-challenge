@@ -20,8 +20,7 @@ import {
 import { randomColor, useSpaceX } from "../../utils";
 import { Error, Breadcrumbs } from "../../components";
 import { LaunchItem } from "../Launches";
-import { LaunchPad } from "../types";
-import { Launch, Location } from "../types";
+import { LaunchPad, Launch, Location } from "../../infrastructure";
 
 interface LaunchPadBaseProps {
   launchPad: LaunchPad;
