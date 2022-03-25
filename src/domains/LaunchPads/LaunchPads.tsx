@@ -1,14 +1,19 @@
-import { Badge, Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
-  Error,
   Breadcrumbs,
   LoadMoreButton,
   FavoriteButton,
+  PageFallback,
 } from "../../components";
-import { useSpaceXPaginated, noop } from "../../utils";
-import { LaunchPad, useFavoriteContext } from "../../infrastructure";
+import {
+  LaunchPad,
+  useFavoriteContext,
+  useSpaceXPaginated,
+} from "../../infrastructure";
+import { noop } from "../../utils";
 
 const PAGE_SIZE = 12;
 
@@ -28,30 +33,52 @@ export function LaunchPadsPage() {
   });
 
   const safeData: LaunchPad[] = Array.isArray(data) ? data : [];
-  const gridContent = safeData
-    .flat()
-    .map((launchPad) => (
-      <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
-    ));
+
+  const fetchMoreData = () => {
+    setSize(size + 1);
+  };
 
   return (
-    <div>
+    <Box
+      id="scrollableDiv"
+      height={[
+        "calc(100vh - 60px)",
+        "calc(100vh - 60px)",
+        "calc(100vh - 91px)",
+      ]}
+      width="100vw"
+      overflowX={"hidden"}
+      overflowY={"auto"}
+    >
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launch Pads" }]}
+        marginBottom={false}
       />
 
-      <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
-        {error && <Error />}
-        {gridContent}
-      </SimpleGrid>
+      {error && <PageFallback error={error} />}
+
+      <InfiniteScroll
+        dataLength={safeData.length}
+        next={() => fetchMoreData()}
+        hasMore={true}
+        loader={null}
+        scrollableTarget="scrollableDiv"
+        scrollThreshold={0.9}
+      >
+        <SimpleGrid minChildWidth="350px" spacing="4" p={[4, null, 6]}>
+          {safeData.flat().map((launchPad) => (
+            <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
+          ))}
+        </SimpleGrid>
+      </InfiniteScroll>
 
       <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
+        loadMore={() => fetchMoreData()}
         data={safeData}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
       />
-    </div>
+    </Box>
   );
 }
 

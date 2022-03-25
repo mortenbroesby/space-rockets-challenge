@@ -5,26 +5,26 @@ This document outlines a range of choices I have made while working on this chal
 I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
 ## Future considerations
-- Add unit and/or end to end tests for the majority of the application.
-- Potentially add service-worker to offload API fetching and offline caching.
-- Consider properly typing SpaceX API, instead of using quicktype.
+- Adding other sections to the application.
+  - Page with interactive chat to interact and discuss with others.
+  - Page with upcoming launches.
+- Ensure that components are properly kept DRY and kept performant using benchmarks.
+- Nice animations throughout the application. I considered focusing on this, but decided not to.
+- Add extensive unit and end to end tests to cover the majority of the application.
+- Find a way to get the SpaceX API local dates with UTC offset, instead of the browser offset (in EU GMT+1).
+- Properly type SpaceX API, instead of using quicktype.
 - Round of TLC in terms of accessibility and SEO.
-- Pull out domain-specific fetching hooks into wrapper hooks.
-- Proper error handling and production monitoring - example: Sentry.
-- Add guards against invalid API data, or Middleware.
+- Consider adding [Storybook](https://www.komododigital.co.uk/insights/react-storybook-why-should-you-use-it/) to have an isolated playground.
+- Pull out domain-specific fetching hooks into dedicated wrapper hooks.
+- Remote error handling and production monitoring - example: Sentry.
+- Add proper guards against invalid/malformed API data.
+  - We currently trust the API to always return the API in a certain format. This can and will break the app, if it changes.
 - Simplify pages by splitting up component and business-logic into sub-domains.
-- Considering performance, we might want to use a virtual list or group for large data sets.
-- Setup CI bots to automate CI/CD and continuous deployment, long term.
-- Loop through dependency NPM modules and ensure they are up to date, to facilitate usage best.
+- Considering performance, we probably want to use a virtual list or group for large data sets.
+- Setup CI automation to accommodate [CI/CD](https://www.redhat.com/en/topics/devops/what-is-ci-cd), long term.
+- Properly loop through all repo NPM modules and ensure they are up to date, to facilitate usage best.
 - Generally I recommend that packages are kept updated as part of a maintenance flow.
   - Notable example: Update `swr` package and migrate to updated API. Comes with a lot of improvements.
-
-## Nitpicking
-- Find a way to get the local dates with UTC offset from the SpaceX API, instead of the browser offset.
-- If this was a production application:
-  - Go through application and ensure dark-mode looks good everywhere.
-  - Properly fix the existing source-map issue with Timeago.js.
-
 
 ---
 

@@ -1,15 +1,19 @@
 import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
-import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
-  Error,
   Breadcrumbs,
-  LoadMoreButton,
   FavoriteButton,
+  LoadMoreButton,
+  PageFallback,
 } from "../../components";
-import { useSpaceXPaginated, noop, formatDate } from "../../utils";
-import { Launch, useFavoriteContext } from "../../infrastructure";
+import {
+  Launch,
+  useFavoriteContext,
+  useSpaceXPaginated,
+} from "../../infrastructure";
+import { noop, formatDate, formatTimeAgo } from "../../utils";
 
 const PAGE_SIZE = 12;
 
@@ -27,34 +31,58 @@ export function LaunchesPage() {
   const {
     data,
     error,
-    isValidating,
     setSize = noop,
+    isValidating,
     size = 0,
   } = useSpaceXPaginated("/launches/past", fetchOptions);
 
   const safeData: Launch[] = Array.isArray(data) ? data : [];
-  const gridContent = safeData
-    .flat()
-    .map((launch) => <LaunchItem launch={launch} key={launch.flight_number} />);
+
+  const fetchMoreData = () => {
+    setSize(size + 1);
+  };
 
   return (
-    <div>
+    <Box
+      id="scrollableDiv"
+      height={[
+        "calc(100vh - 60px)",
+        "calc(100vh - 60px)",
+        "calc(100vh - 91px)",
+      ]}
+      width="100vw"
+      overflowX={"hidden"}
+      overflowY={"auto"}
+    >
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
+        marginBottom={false}
       />
 
-      <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
-        {error && <Error />}
-        {gridContent}
-      </SimpleGrid>
+      {error && <PageFallback error={error} />}
+
+      <InfiniteScroll
+        dataLength={safeData.length}
+        next={() => fetchMoreData()}
+        hasMore={true}
+        loader={null}
+        scrollableTarget="scrollableDiv"
+        scrollThreshold={0.9}
+      >
+        <SimpleGrid minChildWidth="350px" spacing="4" p={[4, null, 6]}>
+          {safeData.flat().map((launch) => (
+            <LaunchItem launch={launch} key={launch.flight_number} />
+          ))}
+        </SimpleGrid>
+      </InfiniteScroll>
 
       <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
+        loadMore={() => fetchMoreData()}
         data={safeData}
         pageSize={PAGE_SIZE}
         isLoadingMore={isValidating}
       />
-    </div>
+    </Box>
   );
 }
 
@@ -176,7 +204,7 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
             <Text fontSize="sm">{formatDate(launch_date_utc)} </Text>
 
             <Text color="gray.500" ml="2" fontSize="sm">
-              {timeAgo(launch_date_utc)}
+              {formatTimeAgo(launch_date_utc)}
             </Text>
           </Flex>
         </Box>

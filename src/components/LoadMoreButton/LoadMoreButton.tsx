@@ -17,7 +17,7 @@ export function LoadMoreButton<T extends any[]>(
   const isReachingEnd = data[0]?.length === 0 || dataLength < pageSize;
 
   return (
-    <Flex justifyContent="center" my="100px">
+    <Flex justifyContent="center" mt="2" mb="4">
       <Button onClick={loadMore} isDisabled={isReachingEnd || isLoadingMore}>
         {isLoadingMore ? (
           <Spinner />

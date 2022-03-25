@@ -1,10 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import { Box, ChakraProvider, CSSReset } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
-
-import { NavBar } from "./NavBar";
-
-import { FavoritesProvider } from "../infrastructure";
+import { ErrorBoundary } from "react-error-boundary";
 
 import {
   HomePage,
@@ -14,38 +11,41 @@ import {
   LaunchPadPage,
   FavoritesDrawer,
 } from "../domains";
+import { FavoritesProvider } from "../infrastructure";
+import { ApplicationFallback, defaultErrorHandler } from "../components";
+import { NavBar } from "./NavBar";
 
 export function Application() {
   return (
     <Router>
-      <FavoritesProvider>
-        <ChakraProvider>
-          <CSSReset />
-          <RootComponents />
-        </ChakraProvider>
-      </FavoritesProvider>
-    </Router>
-  );
-}
+      <ChakraProvider>
+        <CSSReset />
 
-function RootComponents() {
-  return (
-    <div>
-      <NavBar />
-      <AppRoutes />
-      <FavoritesDrawer />
-    </div>
+        <ErrorBoundary
+          FallbackComponent={ApplicationFallback}
+          onError={defaultErrorHandler}
+        >
+          <FavoritesProvider>
+            <NavBar />
+            <AppRoutes />
+            <FavoritesDrawer />
+          </FavoritesProvider>
+        </ErrorBoundary>
+      </ChakraProvider>
+    </Router>
   );
 }
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/launches" element={<LaunchesPage />} />
-      <Route path="/launches/:launchId" element={<LaunchPage />} />
-      <Route path="/launch-pads" element={<LaunchPadsPage />} />
-      <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
-    </Routes>
+    <Box overflowX={"hidden"} overflowY={"hidden"}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/launches" element={<LaunchesPage />} />
+        <Route path="/launches/:launchId" element={<LaunchPage />} />
+        <Route path="/launch-pads" element={<LaunchPadsPage />} />
+        <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
+      </Routes>
+    </Box>
   );
 }

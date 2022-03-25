@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams, Link as RouterLink } from "react-router-dom";
-import { format as timeAgo } from "timeago.js";
 import { Watch, MapPin, Navigation, Layers } from "react-feather";
 import {
   Flex,
@@ -22,9 +21,9 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
-import { Launch, useFavoriteContext } from "../../infrastructure";
-import { useSpaceX, formatDateTime } from "../../utils";
-import { Error, Breadcrumbs, FavoriteButton } from "../../components";
+import { Launch, useFavoriteContext, useSpaceX } from "../../infrastructure";
+import { formatDateTime, formatTimeAgo } from "../../utils";
+import { PageFallback, Breadcrumbs, FavoriteButton } from "../../components";
 
 interface LaunchBaseProps {
   launch: Launch;
@@ -36,7 +35,7 @@ export function LaunchPage() {
   const { data: launch, error } = useSpaceX<Launch>(`/launches/${launchId}`);
 
   if (error) {
-    return <Error />;
+    return <PageFallback error={error} />;
   }
 
   if (!launch) {
@@ -52,7 +51,7 @@ export function LaunchPage() {
       <Breadcrumbs
         items={[
           { label: "Home", to: "/" },
-          { label: "Launches", to: ".." },
+          { label: "Launches", to: "/launches" },
           { label: `#${launch.flight_number}` },
         ]}
       />
@@ -204,7 +203,7 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
           </Tooltip>
         </StatNumber>
 
-        <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
+        <StatHelpText>{formatTimeAgo(launch.launch_date_utc)}</StatHelpText>
       </Stat>
 
       <Stat>

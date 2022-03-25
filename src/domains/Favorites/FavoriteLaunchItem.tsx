@@ -1,9 +1,9 @@
 import { Stack, Box, Image, Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { format as timeAgo } from "timeago.js";
 
 import { FavoriteButton } from "../../components";
 import { Launch } from "../../infrastructure";
+import { formatTimeAgo } from "../../utils";
 
 export function FavoriteLaunchItem({
   launch,
@@ -53,7 +53,7 @@ export function FavoriteLaunchItem({
 
             <Flex direction="column">
               <Text color="gray.500" fontSize="xs">
-                {timeAgo(launch_date_utc)}
+                {formatTimeAgo(launch_date_utc)}
               </Text>
             </Flex>
           </Box>

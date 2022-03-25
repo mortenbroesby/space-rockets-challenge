@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Flex, Box, Text, Stack, Link } from "@chakra-ui/react";
 import { ArrowRight } from "react-feather";
 import { Link as BrowserLink } from "react-router-dom";

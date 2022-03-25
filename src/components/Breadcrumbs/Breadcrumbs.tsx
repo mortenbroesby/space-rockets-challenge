@@ -15,16 +15,18 @@ interface BreadcrumbSchema {
 
 interface BreadcrumbsProps {
   items: BreadcrumbSchema[];
+  marginBottom?: boolean;
 }
 
 export function Breadcrumbs(properties: BreadcrumbsProps) {
-  const { items } = properties;
+  const { items, marginBottom = true } = properties;
 
   return (
     <Breadcrumb
       m="6"
       spacing="1"
       separator={<Box size="1em" as={ChevronsRight} color="gray.300" />}
+      mb={marginBottom ? "6" : "0"}
     >
       {items.map((item, index) => {
         const isCurrentPage = items.length === index + 1;

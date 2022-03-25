@@ -17,15 +17,16 @@ import {
   AspectRatio,
 } from "@chakra-ui/react";
 
-import { randomColor, useSpaceX } from "../../utils";
-import { Error, Breadcrumbs, FavoriteButton } from "../../components";
-import { LaunchItem } from "../Launches";
 import {
   LaunchPad,
   Launch,
   Location,
   useFavoriteContext,
+  useSpaceX,
 } from "../../infrastructure";
+import { randomColor } from "../../utils";
+import { PageFallback, Breadcrumbs, FavoriteButton } from "../../components";
+import { LaunchItem } from "../Launches";
 
 interface LaunchPadBaseProps {
   launchPad: LaunchPad;
@@ -51,7 +52,7 @@ export function LaunchPadPage() {
   const safeLaunches: Launch[] = Array.isArray(launches) ? launches : [];
 
   if (error) {
-    return <Error />;
+    return <PageFallback error={error} />;
   }
 
   if (!launchPad) {
@@ -67,7 +68,7 @@ export function LaunchPadPage() {
       <Breadcrumbs
         items={[
           { label: "Home", to: "/" },
-          { label: "Launch Pads", to: ".." },
+          { label: "Launch Pads", to: "/launch-pads" },
           { label: launchPad.name },
         ]}
       />
