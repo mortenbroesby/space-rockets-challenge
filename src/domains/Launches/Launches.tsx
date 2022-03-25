@@ -67,6 +67,7 @@ export function LaunchesPage() {
     >
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
+        marginBottom={false}
       />
 
       {error && <PageFallback error={error} />}
@@ -81,7 +82,7 @@ export function LaunchesPage() {
           </Flex>
         }
         scrollableTarget="scrollableDiv"
-        scrollThreshold={1}
+        scrollThreshold={0.9}
       >
         <SimpleGrid minChildWidth="350px" spacing="4" p={[2, null, 6]}>
           {safeData.flat().map((launch) => (
