@@ -16,6 +16,8 @@ export function NavBar() {
       padding={["2", null, "6"]}
       bg="gray.800"
       color="white"
+      zIndex={2}
+      width="100%"
     >
       <Text
         fontFamily="mono"

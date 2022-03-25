@@ -1,5 +1,14 @@
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Image,
+  SimpleGrid,
+  Text,
+  Flex,
+  Spinner,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
   useSpaceXPaginated,
@@ -7,12 +16,7 @@ import {
   formatDate,
   formatTimeAgo,
 } from "../../utils";
-import {
-  Breadcrumbs,
-  LoadMoreButton,
-  FavoriteButton,
-  PageFallback,
-} from "../../components";
+import { Breadcrumbs, FavoriteButton, PageFallback } from "../../components";
 import { Launch, useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
@@ -31,34 +35,53 @@ export function LaunchesPage() {
   const {
     data,
     error,
-    isValidating,
     setSize = noop,
     size = 0,
   } = useSpaceXPaginated("/launches/past", fetchOptions);
 
   const safeData: Launch[] = Array.isArray(data) ? data : [];
-  const gridContent = safeData
-    .flat()
-    .map((launch) => <LaunchItem launch={launch} key={launch.flight_number} />);
+
+  const fetchMoreData = () => {
+    setSize(size + 1);
+  };
 
   return (
-    <div>
+    <Box
+      id="scrollableDiv"
+      height={[
+        "calc(100vh - 60px)",
+        "calc(100vh - 60px)",
+        "calc(100vh - 91px)",
+      ]}
+      width="100vw"
+      overflowX={"hidden"}
+      overflowY={"auto"}
+    >
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
       />
 
-      <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
-        {error && <PageFallback error={error} />}
-        {gridContent}
-      </SimpleGrid>
+      {error && <PageFallback error={error} />}
 
-      <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
-        data={safeData}
-        pageSize={PAGE_SIZE}
-        isLoadingMore={isValidating}
-      />
-    </div>
+      <InfiniteScroll
+        dataLength={safeData.length}
+        next={() => fetchMoreData()}
+        hasMore={true}
+        loader={
+          <Flex justifyContent="center" margin={2}>
+            <Spinner />
+          </Flex>
+        }
+        scrollableTarget="scrollableDiv"
+        scrollThreshold={1}
+      >
+        <SimpleGrid minChildWidth="350px" spacing="4" p={[2, null, 6]}>
+          {safeData.flat().map((launch) => (
+            <LaunchItem launch={launch} key={launch.flight_number} />
+          ))}
+        </SimpleGrid>
+      </InfiniteScroll>
+    </Box>
   );
 }
 

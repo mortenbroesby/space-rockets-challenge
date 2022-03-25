@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import { Box, ChakraProvider, CSSReset } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -38,12 +38,14 @@ export function Application() {
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/launches" element={<LaunchesPage />} />
-      <Route path="/launches/:launchId" element={<LaunchPage />} />
-      <Route path="/launch-pads" element={<LaunchPadsPage />} />
-      <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
-    </Routes>
+    <Box overflowX={"hidden"} overflowY={"hidden"}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/launches" element={<LaunchesPage />} />
+        <Route path="/launches/:launchId" element={<LaunchPage />} />
+        <Route path="/launch-pads" element={<LaunchPadsPage />} />
+        <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
+      </Routes>
+    </Box>
   );
 }
