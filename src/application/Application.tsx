@@ -1,10 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { ChakraProvider, CSSReset } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
-
-import { NavBar } from "./NavBar";
-
-import { FavoritesProvider } from "../infrastructure";
+import { ErrorBoundary } from "react-error-boundary";
 
 import {
   HomePage,
@@ -14,6 +11,9 @@ import {
   LaunchPadPage,
   FavoritesDrawer,
 } from "../domains";
+import { FavoritesProvider } from "../infrastructure";
+import { ApplicationFallback } from "../components";
+import { NavBar } from "./NavBar";
 
 export function Application() {
   return (
@@ -28,13 +28,22 @@ export function Application() {
   );
 }
 
+const errorHandler = (error: Error, info: { componentStack: string }) => {
+  console.warn("error: ", { error, info });
+};
+
 function RootComponents() {
   return (
-    <div>
+    <>
       <NavBar />
-      <AppRoutes />
+      <ErrorBoundary
+        FallbackComponent={ApplicationFallback}
+        onError={errorHandler}
+      >
+        <AppRoutes />
+      </ErrorBoundary>
       <FavoritesDrawer />
-    </div>
+    </>
   );
 }
 

@@ -23,7 +23,7 @@ import {
 
 import { Launch, useFavoriteContext } from "../../infrastructure";
 import { useSpaceX, formatDateTime, formatTimeAgo } from "../../utils";
-import { Error, Breadcrumbs, FavoriteButton } from "../../components";
+import { PageFallback, Breadcrumbs, FavoriteButton } from "../../components";
 
 interface LaunchBaseProps {
   launch: Launch;
@@ -35,7 +35,7 @@ export function LaunchPage() {
   const { data: launch, error } = useSpaceX<Launch>(`/launches/${launchId}`);
 
   if (error) {
-    return <Error />;
+    return <PageFallback error={error} />;
   }
 
   if (!launch) {

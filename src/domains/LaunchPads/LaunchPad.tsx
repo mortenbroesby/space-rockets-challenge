@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 
 import { randomColor, useSpaceX } from "../../utils";
-import { Error, Breadcrumbs, FavoriteButton } from "../../components";
+import { PageFallback, Breadcrumbs, FavoriteButton } from "../../components";
 import { LaunchItem } from "../Launches";
 import {
   LaunchPad,
@@ -51,7 +51,7 @@ export function LaunchPadPage() {
   const safeLaunches: Launch[] = Array.isArray(launches) ? launches : [];
 
   if (error) {
-    return <Error />;
+    return <PageFallback error={error} />;
   }
 
   if (!launchPad) {

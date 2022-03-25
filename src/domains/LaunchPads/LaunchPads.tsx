@@ -2,7 +2,7 @@ import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import {
-  Error,
+  PageFallback,
   Breadcrumbs,
   LoadMoreButton,
   FavoriteButton,
@@ -41,7 +41,7 @@ export function LaunchPadsPage() {
       />
 
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
-        {error && <Error />}
+        {error && <PageFallback error={error} />}
         {gridContent}
       </SimpleGrid>
 
