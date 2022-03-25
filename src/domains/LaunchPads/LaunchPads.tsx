@@ -10,7 +10,6 @@ import {
 } from "../../components";
 import { useSpaceXPaginated, noop } from "../../utils";
 import { LaunchPad, useFavoriteContext } from "../../infrastructure";
-import { useState } from "react";
 
 const PAGE_SIZE = 12;
 
@@ -19,8 +18,6 @@ interface LaunchPadBaseProps {
 }
 
 export function LaunchPadsPage() {
-  const [hasMoreData, setHasMoreData] = useState(true);
-
   const {
     data,
     error,
@@ -34,16 +31,21 @@ export function LaunchPadsPage() {
   const safeData: LaunchPad[] = Array.isArray(data) ? data : [];
 
   const fetchMoreData = () => {
-    setSize(size + 1).then((results: LaunchPad[][]) => {
-      const resultsHaveEntries = results[results.length - 1].length !== 0;
-      if (!resultsHaveEntries) {
-        setHasMoreData(false);
-      }
-    });
+    setSize(size + 1);
   };
 
   return (
-    <div>
+    <Box
+      id="scrollableDiv"
+      height={[
+        "calc(100vh - 60px)",
+        "calc(100vh - 60px)",
+        "calc(100vh - 91px)",
+      ]}
+      width="100vw"
+      overflowX={"hidden"}
+      overflowY={"auto"}
+    >
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launch Pads" }]}
         marginBottom={false}
@@ -54,15 +56,8 @@ export function LaunchPadsPage() {
       <InfiniteScroll
         dataLength={safeData.length}
         next={() => fetchMoreData()}
-        hasMore={hasMoreData}
-        loader={
-          <LoadMoreButton
-            loadMore={() => fetchMoreData()}
-            data={safeData}
-            pageSize={PAGE_SIZE}
-            isLoadingMore={isValidating}
-          />
-        }
+        hasMore={true}
+        loader={null}
         scrollableTarget="scrollableDiv"
         scrollThreshold={0.9}
       >
@@ -72,7 +67,14 @@ export function LaunchPadsPage() {
           ))}
         </SimpleGrid>
       </InfiniteScroll>
-    </div>
+
+      <LoadMoreButton
+        loadMore={() => fetchMoreData()}
+        data={safeData}
+        pageSize={PAGE_SIZE}
+        isLoadingMore={isValidating}
+      />
+    </Box>
   );
 }
 

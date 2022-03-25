@@ -15,7 +15,6 @@ import {
   PageFallback,
 } from "../../components";
 import { Launch, useFavoriteContext } from "../../infrastructure";
-import { useState } from "react";
 
 const PAGE_SIZE = 12;
 
@@ -24,8 +23,6 @@ interface LaunchesBaseProps {
 }
 
 export function LaunchesPage() {
-  const [hasMoreData, setHasMoreData] = useState(true);
-
   const fetchOptions = {
     limit: PAGE_SIZE,
     order: "desc",
@@ -43,12 +40,7 @@ export function LaunchesPage() {
   const safeData: Launch[] = Array.isArray(data) ? data : [];
 
   const fetchMoreData = () => {
-    setSize(size + 1).then((results: Launch[][]) => {
-      const resultsHaveEntries = results[results.length - 1].length !== 0;
-      if (!resultsHaveEntries) {
-        setHasMoreData(false);
-      }
-    });
+    setSize(size + 1);
   };
 
   return (
@@ -73,15 +65,8 @@ export function LaunchesPage() {
       <InfiniteScroll
         dataLength={safeData.length}
         next={() => fetchMoreData()}
-        hasMore={hasMoreData}
-        loader={
-          <LoadMoreButton
-            loadMore={() => fetchMoreData()}
-            data={safeData}
-            pageSize={PAGE_SIZE}
-            isLoadingMore={isValidating}
-          />
-        }
+        hasMore={true}
+        loader={null}
         scrollableTarget="scrollableDiv"
         scrollThreshold={0.9}
       >
@@ -91,6 +76,13 @@ export function LaunchesPage() {
           ))}
         </SimpleGrid>
       </InfiniteScroll>
+
+      <LoadMoreButton
+        loadMore={() => fetchMoreData()}
+        data={safeData}
+        pageSize={PAGE_SIZE}
+        isLoadingMore={isValidating}
+      />
     </Box>
   );
 }
