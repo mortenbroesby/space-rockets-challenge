@@ -4,7 +4,7 @@ This document outlines a range of choices I have made while working on this chal
 
 I am a strong believer in Team-driven development, and I'm used to adapt to whatever works best for the team. That doesn't mean I don't have an opinion on most topics :)
 
-# Future considerations
+## Future considerations
 - Add unit and/or end to end tests for the majority of the application.
 - Potentially add service-worker to offload API fetching and offline caching.
 - Consider properly typing SpaceX API, instead of using quicktype.
@@ -19,7 +19,7 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 - Generally I recommend that packages are kept updated as part of a maintenance flow.
   - Notable example: Update `swr` package and migrate to updated API. Comes with a lot of improvements.
 
-# Nitpicking
+## Nitpicking
 - Find a way to get the local dates with UTC offset from the SpaceX API, instead of the browser offset.
 - If this was a production application:
   - Go through application and ensure dark-mode looks good everywhere.
@@ -32,7 +32,7 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 
 Early in my project inspection phase, I noticed that a range of packages were out of date. One notable example was Chakra-UI.
 
-I took the liberty of ["migrating to the latest version of Chakra"](https://chakra-ui.com/guides/migration), together with other package version bumps.
+I took the liberty of ["migrating to the latest version of Chakra"](https://chakra-ui.com/guides/migration) together with other NPM package version bumps.
 
 ---
 
@@ -50,9 +50,25 @@ https://space-rockets-challenge-pleo.vercel.app/
 
 I've always tried to avoid doing actual timezone parsing if I could avoid it, as ["dates are a headache in Javascript"](https://maggiepint.com/2017/04/09/fixing-javascript-date-getting-started/).
 
-At the moment, I rely on a Date library - currently `luxon` - for the heavy lifting in terms of date parsing.
+I rely on a Date library - currently `luxon` - for the heavy lifting in terms of date parsing.
 
 Should this library become a large production application, then I would definitely find a more minimal library for date manipulation. I would even go as far to consider a completely custom library with a strong focus on only having exactly the utility functions we need.
+
+---
+
+## 💾 Storage
+
+#### ⛰ Persistence
+
+I've used my own storage adapter to persist data in the user's browser storage, mainly to prevent hard failures on incorrect getItem / setItem usage.
+
+#### 🗂 Cache
+
+I got a bit side-tracked adding a ["Least Recently Used"](https://progressivecoder.com/lru-cache-implementation-using-javascript-linked-list-and-objects/#:~:text=LRU%20stands%20for%20Least%20Recently,is%20known%20as%20LRU%20Cache) in my Favorites storage implementation.
+
+That was mainly done for fun.
+
+In a production scenario, I would ensure I was aligned with the team and stakeholders before code of that nature.
 
 ---
 
@@ -93,7 +109,7 @@ https://michalzalecki.com/elegant-frontend-architecture/
 I use named exports throughout my code. This is useful to ensure an importable is consumed as intended. I've experienced a benefit to this approach when a project scales, but I'm not strongly oppinionated about it.
 
 
-#### 🗂 Folder Structure
+#### 📂 Folder Structure
 
 ```
 src
