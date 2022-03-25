@@ -2,9 +2,14 @@
 
 # ¡Space·Rockets! app
 
-### [👉 Go to the challenge 👈](./CHALLENGE.md)
+This repository contains my approach to The Pleo Frontend Challenge - Space Rockets.
 
-### [🚀 See the app in action 🚀](https://space-rockets-challenge-pleo.vercel.app/)
+### [🚀 See my application in action 🚀](https://space-rockets-challenge-pleo.vercel.app/)
+
+### [📜 Read my motivations and choices 📜](./src/README.md)
+
+### [👉 Read what the challenge entails 👈](./CHALLENGE.md)
+
 
 ## Develop
 
@@ -44,5 +49,8 @@ All data is fetched from the unofficial SpaceX API V3 at
   routing library
 - [React Feathers](https://github.com/feathericons/react-feather) - Icons
   ([Feather icons](https://feathericons.com/) wrapper for React)
-- [timeago.js](https://timeago.org/) - Tiny library to display human-readable
-  relative time difference
+- [Luxon](https://moment.github.io/luxon/#/) - Date library
+- [react-error-boundary](https://github.com/bvaughn/react-error-boundary#readme) - ErrorBoundary HoC
+- [react-infinite-scroll-component](https://github.com/ankeetmaini/react-infinite-scroll-component#readme) - Infinite scroll HoC
+- [typescript-lru-cache](https://github.com/rob893/typescript-lru-cache#readme) - Least Recently Used Cache
+- [Typescript](https://www.typescriptlang.org/)
