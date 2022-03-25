@@ -3,12 +3,15 @@ import React, {
   createContext,
   FunctionComponent,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { LRUCache } from "typescript-lru-cache";
 
-import { noop } from "../utils";
-import { Launch, LaunchPad } from "../domains/types";
+import { LocalStorage, noop } from "../utils";
+import { Launch, LaunchPad } from "../domains";
+
+const LocalStorageKey = "Favorites";
 
 export type FavoriteType = "Launch" | "LaunchPad";
 export type FavoritePayload = Launch | LaunchPad;
@@ -59,7 +62,6 @@ export const useFavoriteContext: () => FavoriteContextType = () => {
 };
 
 const cacheSize = 3;
-let isCacheInitialised = false;
 
 let launchesCache: LRUCache<string, FavoriteItem>;
 let launchPadCache: LRUCache<string, FavoriteItem>;
@@ -76,9 +78,6 @@ interface EvictedFavorite {
 }
 
 function initialiseCache(updateFn: (entry: EvictedFavorite) => void) {
-  if (isCacheInitialised) return;
-  isCacheInitialised = true;
-
   launchesCache = new LRUCache<string, FavoriteItem>({
     maxSize: cacheSize,
     onEntryEvicted: (entry) => {
@@ -94,11 +93,42 @@ function initialiseCache(updateFn: (entry: EvictedFavorite) => void) {
   });
 }
 
-export const FavoritesProvider: FunctionComponent = ({ children }) => {
-  const [favorites, setFavorites] = useState<FavoriteItem[]>(initialStore());
-  const [isDrawerOpen, setDrawerOpenState] = useState(false);
+function getStoredFavorites(): FavoriteItem[] {
+  const storedFavorites = LocalStorage.getItem(LocalStorageKey);
+  if (storedFavorites) {
+    try {
+      return JSON.parse(storedFavorites) as FavoriteItem[];
+    } catch (error) {
+      console.warn("Error parsing stored favorites");
+    }
+  }
 
-  initialiseCache(onCacheEviction);
+  return [];
+}
+
+function storeFavorites(favorites: FavoriteItem[]) {
+  LocalStorage.setItem(LocalStorageKey, JSON.stringify(favorites));
+}
+
+export const FavoritesProvider: FunctionComponent = ({ children }) => {
+  const [isDrawerOpen, setDrawerOpenState] = useState(false);
+  const [isCacheInitialised, setCacheInitialised] = useState(false);
+
+  const [favorites, setFavorites] = useState<FavoriteItem[]>(initialStore());
+
+  /**
+   * Initialise cache and restore from local-storage
+   */
+  useEffect(() => {
+    if (isCacheInitialised) return;
+
+    setCacheInitialised(true);
+    initialiseCache(onCacheEviction);
+
+    getStoredFavorites().forEach((item) => {
+      addToFavorites(item);
+    });
+  }, [isCacheInitialised]);
 
   function onCacheEviction() {
     updateFavorites();
@@ -138,6 +168,7 @@ export const FavoritesProvider: FunctionComponent = ({ children }) => {
       });
     });
 
+    storeFavorites(updatedFavorites);
     setFavorites(updatedFavorites);
   }
 
