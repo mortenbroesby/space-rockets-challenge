@@ -55,7 +55,7 @@ Here is a sketch of the feature:
   PR description to list and discuss the things you decided to de-scope, potential
   next steps etc.
 
-### 3. Impress us
+### 3. Impress us (✓)
 
 This last task is a chance for you to impress us. What you do is really up to
 you - show us your best skills, be creative and try not to spend more than a few
