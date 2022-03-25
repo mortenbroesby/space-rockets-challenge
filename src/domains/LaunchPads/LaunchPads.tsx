@@ -8,8 +8,12 @@ import {
   FavoriteButton,
   PageFallback,
 } from "../../components";
-import { useSpaceXPaginated, noop } from "../../utils";
-import { LaunchPad, useFavoriteContext } from "../../infrastructure";
+import {
+  LaunchPad,
+  useFavoriteContext,
+  useSpaceXPaginated,
+} from "../../infrastructure";
+import { noop } from "../../utils";
 
 const PAGE_SIZE = 12;
 

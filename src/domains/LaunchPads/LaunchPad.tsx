@@ -17,15 +17,16 @@ import {
   AspectRatio,
 } from "@chakra-ui/react";
 
-import { randomColor, useSpaceX } from "../../utils";
-import { PageFallback, Breadcrumbs, FavoriteButton } from "../../components";
-import { LaunchItem } from "../Launches";
 import {
   LaunchPad,
   Launch,
   Location,
   useFavoriteContext,
+  useSpaceX,
 } from "../../infrastructure";
+import { randomColor } from "../../utils";
+import { PageFallback, Breadcrumbs, FavoriteButton } from "../../components";
+import { LaunchItem } from "../Launches";
 
 interface LaunchPadBaseProps {
   launchPad: LaunchPad;
