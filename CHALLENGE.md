@@ -11,7 +11,7 @@ make a few changes to the app.
 
 ## Tasks
 
-### 1. Fix a bug (✓)
+### 1. Fix a bug
 
 The team discovered that the launch datetime on the launch details page (e.g.
 `/launches/92`) is displayed in the timezone of the app's user. However, the
@@ -25,7 +25,7 @@ hovering the timestamp. You pick up that ticket.
 - treat this as if you fixed a bug in an app you work on together with a team,
   and the app is in production
 
-### 2. Build a feature (✓)
+### 2. Build a feature
 
 We would like you to add a "favorites" feature to the app. The requirements are:
 
@@ -55,7 +55,7 @@ Here is a sketch of the feature:
   PR description to list and discuss the things you decided to de-scope, potential
   next steps etc.
 
-### 3. Impress us (✓)
+### 3. Impress us
 
 This last task is a chance for you to impress us. What you do is really up to
 you - show us your best skills, be creative and try not to spend more than a few
