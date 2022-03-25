@@ -1,15 +1,10 @@
-import { Flex, Text, Spacer, Button } from "@chakra-ui/react";
+import { Flex, Text, Spacer, Button, Box } from "@chakra-ui/react";
+import { Star } from "react-feather";
 
-import { isDev } from "../utils";
 import { ColorModeSwitcher } from "../components";
 import { useFavoriteContext } from "../infrastructure";
 
 export function NavBar() {
-  const debugVersion = process.env.REACT_APP_VERSION ?? -1;
-
-  const isDevelopment = isDev();
-  const debugString = isDevelopment ? `Version: ${debugVersion}` : "";
-
   const { openDrawer } = useFavoriteContext();
 
   return (
@@ -18,7 +13,7 @@ export function NavBar() {
       align="center"
       justify="space-between"
       wrap="wrap"
-      padding="6"
+      padding={["2", null, "6"]}
       bg="gray.800"
       color="white"
     >
@@ -28,13 +23,24 @@ export function NavBar() {
         fontWeight="bold"
         fontSize="lg"
       >
-        ¡SPACE·R0CKETS! {debugString}
+        ¡SPACE·R0CKETS!
       </Text>
 
       <Spacer />
 
-      <Button colorScheme="blue" onClick={() => openDrawer()}>
-        Favorites
+      <Button
+        colorScheme="blue"
+        onClick={() => openDrawer()}
+        paddingStart={["2", "4", "4"]}
+        paddingEnd={["2", "4", "4"]}
+      >
+        <Box display={["block", "none", "none"]}>
+          <Star />
+        </Box>
+
+        <Box display={["none", "block", "block"]}>
+          <Text>Open Favorites</Text>
+        </Box>
       </Button>
 
       <ColorModeSwitcher />

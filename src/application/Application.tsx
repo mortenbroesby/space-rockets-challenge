@@ -17,41 +17,33 @@ import { NavBar } from "./NavBar";
 
 export function Application() {
   return (
-    <ChakraProvider>
-      <CSSReset />
+    <Router>
+      <ChakraProvider>
+        <CSSReset />
 
-      <ErrorBoundary
-        FallbackComponent={ApplicationFallback}
-        onError={defaultErrorHandler}
-      >
-        <FavoritesProvider>
-          <DefaultPage />
-        </FavoritesProvider>
-      </ErrorBoundary>
-    </ChakraProvider>
-  );
-}
-
-function DefaultPage() {
-  return (
-    <>
-      <NavBar />
-      <AppRoutes />
-      <FavoritesDrawer />
-    </>
+        <ErrorBoundary
+          FallbackComponent={ApplicationFallback}
+          onError={defaultErrorHandler}
+        >
+          <FavoritesProvider>
+            <NavBar />
+            <AppRoutes />
+            <FavoritesDrawer />
+          </FavoritesProvider>
+        </ErrorBoundary>
+      </ChakraProvider>
+    </Router>
   );
 }
 
 function AppRoutes() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/launches" element={<LaunchesPage />} />
-        <Route path="/launches/:launchId" element={<LaunchPage />} />
-        <Route path="/launch-pads" element={<LaunchPadsPage />} />
-        <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/launches" element={<LaunchesPage />} />
+      <Route path="/launches/:launchId" element={<LaunchPage />} />
+      <Route path="/launch-pads" element={<LaunchPadsPage />} />
+      <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
+    </Routes>
   );
 }
