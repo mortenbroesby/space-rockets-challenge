@@ -1,12 +1,4 @@
-import {
-  Badge,
-  Box,
-  Image,
-  SimpleGrid,
-  Text,
-  Flex,
-  Spinner,
-} from "@chakra-ui/react";
+import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -16,7 +8,12 @@ import {
   formatDate,
   formatTimeAgo,
 } from "../../utils";
-import { Breadcrumbs, FavoriteButton, PageFallback } from "../../components";
+import {
+  Breadcrumbs,
+  FavoriteButton,
+  LoadMoreButton,
+  PageFallback,
+} from "../../components";
 import { Launch, useFavoriteContext } from "../../infrastructure";
 import { useState } from "react";
 
@@ -39,6 +36,7 @@ export function LaunchesPage() {
     data,
     error,
     setSize = noop,
+    isValidating,
     size = 0,
   } = useSpaceXPaginated("/launches/past", fetchOptions);
 
@@ -77,9 +75,12 @@ export function LaunchesPage() {
         next={() => fetchMoreData()}
         hasMore={hasMoreData}
         loader={
-          <Flex justifyContent="center" margin={2}>
-            <Spinner />
-          </Flex>
+          <LoadMoreButton
+            loadMore={() => fetchMoreData()}
+            data={safeData}
+            pageSize={PAGE_SIZE}
+            isLoadingMore={isValidating}
+          />
         }
         scrollableTarget="scrollableDiv"
         scrollThreshold={0.9}
