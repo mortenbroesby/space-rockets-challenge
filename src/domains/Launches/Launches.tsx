@@ -18,6 +18,7 @@ import {
 } from "../../utils";
 import { Breadcrumbs, FavoriteButton, PageFallback } from "../../components";
 import { Launch, useFavoriteContext } from "../../infrastructure";
+import { useState } from "react";
 
 const PAGE_SIZE = 12;
 
@@ -26,6 +27,8 @@ interface LaunchesBaseProps {
 }
 
 export function LaunchesPage() {
+  const [hasMoreData, setHasMoreData] = useState(true);
+
   const fetchOptions = {
     limit: PAGE_SIZE,
     order: "desc",
@@ -42,7 +45,12 @@ export function LaunchesPage() {
   const safeData: Launch[] = Array.isArray(data) ? data : [];
 
   const fetchMoreData = () => {
-    setSize(size + 1);
+    setSize(size + 1).then((results: Launch[][]) => {
+      const resultsHaveEntries = results[results.length - 1].length !== 0;
+      if (!resultsHaveEntries) {
+        setHasMoreData(false);
+      }
+    });
   };
 
   return (
@@ -66,7 +74,7 @@ export function LaunchesPage() {
       <InfiniteScroll
         dataLength={safeData.length}
         next={() => fetchMoreData()}
-        hasMore={true}
+        hasMore={hasMoreData}
         loader={
           <Flex justifyContent="center" margin={2}>
             <Spinner />
