@@ -1,5 +1,6 @@
 import { Flex, Text, Spacer, Button, Box } from "@chakra-ui/react";
 import { Star } from "react-feather";
+import { Link } from "react-router-dom";
 
 import { ColorModeSwitcher } from "../components";
 import { useFavoriteContext } from "../infrastructure";
