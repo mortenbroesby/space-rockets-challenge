@@ -1,11 +1,14 @@
-import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { Badge, Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import { Error, Breadcrumbs, LoadMoreButton } from "../../components";
-import { useSpaceXPaginated } from "../../utils";
-import { noop } from "../../utils/misc";
-import { LaunchPad } from "../types";
+import {
+  Error,
+  Breadcrumbs,
+  LoadMoreButton,
+  FavoriteButton,
+} from "../../components";
+import { useSpaceXPaginated, noop } from "../../utils";
+import { LaunchPad, useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
 
@@ -36,10 +39,12 @@ export function LaunchPadsPage() {
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launch Pads" }]}
       />
+
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
         {gridContent}
       </SimpleGrid>
+
       <LoadMoreButton
         loadMore={() => setSize(size + 1)}
         data={safeData}
@@ -51,16 +56,55 @@ export function LaunchPadsPage() {
 }
 
 function LaunchPadItem({ launchPad }: LaunchPadBaseProps) {
+  const { isFavorited, addToFavorites, removeFromFavorites } =
+    useFavoriteContext();
+
+  const { site_id } = launchPad;
+
+  const siteId = String(site_id);
+  const isPadFavorited = isFavorited(siteId);
+
+  const setFavorite = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    siteId: string,
+    isFavorited: boolean
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (isFavorited) {
+      return removeFromFavorites({
+        id: siteId,
+        type: "LaunchPad",
+      });
+    } else {
+      return addToFavorites({
+        id: siteId,
+        type: "LaunchPad",
+        payload: launchPad,
+      });
+    }
+  };
+
   return (
     <Box
       as={Link}
-      to={`/launch-pads/${launchPad.site_id}`}
+      to={`/launch-pads/${siteId}`}
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
       overflow="hidden"
       position="relative"
     >
+      <Box position="absolute" top="5" right="5">
+        <FavoriteButton
+          isFavorited={isPadFavorited}
+          onClick={(event) => {
+            setFavorite(event, siteId, isPadFavorited);
+          }}
+        />
+      </Box>
+
       <Box p="6">
         <Box d="flex" alignItems="baseline">
           {launchPad.status === "active" ? (

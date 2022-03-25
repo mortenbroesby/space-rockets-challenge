@@ -1,8 +1,8 @@
-import React from "react";
-import { Flex, Text, Spacer } from "@chakra-ui/react";
+import { Flex, Text, Spacer, Button } from "@chakra-ui/react";
 
 import { isDev } from "../utils";
-import { ColorModeSwitcher } from "../components/ColorModeSwitcher";
+import { ColorModeSwitcher } from "../components";
+import { useFavoriteContext } from "../infrastructure";
 
 export function NavBar() {
   const debugVersion = process.env.REACT_APP_VERSION ?? -1;
@@ -10,11 +10,7 @@ export function NavBar() {
   const isDevelopment = isDev();
   const debugString = isDevelopment ? `Version: ${debugVersion}` : "";
 
-  const debugComponent = isDevelopment ? (
-    <Text fontFamily="mono" letterSpacing="2px" fontWeight="bold" fontSize="lg">
-      {debugString}
-    </Text>
-  ) : null;
+  const { openDrawer } = useFavoriteContext();
 
   return (
     <Flex
@@ -32,12 +28,15 @@ export function NavBar() {
         fontWeight="bold"
         fontSize="lg"
       >
-        ¡SPACE·R0CKETS!
+        ¡SPACE·R0CKETS! {debugString}
       </Text>
 
       <Spacer />
 
-      {debugComponent}
+      <Button colorScheme="blue" onClick={() => openDrawer()}>
+        Favorites
+      </Button>
+
       <ColorModeSwitcher />
     </Flex>
   );
