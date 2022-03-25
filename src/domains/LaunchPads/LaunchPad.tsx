@@ -67,7 +67,7 @@ export function LaunchPadPage() {
       <Breadcrumbs
         items={[
           { label: "Home", to: "/" },
-          { label: "Launch Pads", to: ".." },
+          { label: "Launch Pads", to: "/launch-pads" },
           { label: launchPad.name },
         ]}
       />

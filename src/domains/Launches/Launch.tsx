@@ -51,7 +51,7 @@ export function LaunchPage() {
       <Breadcrumbs
         items={[
           { label: "Home", to: "/" },
-          { label: "Launches", to: ".." },
+          { label: "Launches", to: "/launches" },
           { label: `#${launch.flight_number}` },
         ]}
       />
