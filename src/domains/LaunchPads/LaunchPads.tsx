@@ -96,55 +96,53 @@ function LaunchPadItem({ launchPad }: LaunchPadBaseProps) {
       overflow="hidden"
       position="relative"
     >
-      <Flex>
-        <Box p="6">
-          <Box d="flex" alignItems="baseline">
-            {launchPad.status === "active" ? (
-              <Badge px="2" variant="solid" colorScheme="green">
-                Active
-              </Badge>
-            ) : (
-              <Badge px="2" variant="solid" colorScheme="red">
-                Retired
-              </Badge>
-            )}
-            <Box
-              color="gray.500"
-              fontWeight="semibold"
-              letterSpacing="wide"
-              fontSize="xs"
-              textTransform="uppercase"
-              ml="2"
-            >
-              {launchPad.attempted_launches} attempted &bull;{" "}
-              {launchPad.successful_launches} succeeded
-            </Box>
-          </Box>
+      <Box position="absolute" top="5" right="5">
+        <FavoriteButton
+          isFavorited={isPadFavorited}
+          onClick={(event) => {
+            setFavorite(event, siteId, isPadFavorited);
+          }}
+        />
+      </Box>
 
+      <Box p="6">
+        <Box d="flex" alignItems="baseline">
+          {launchPad.status === "active" ? (
+            <Badge px="2" variant="solid" colorScheme="green">
+              Active
+            </Badge>
+          ) : (
+            <Badge px="2" variant="solid" colorScheme="red">
+              Retired
+            </Badge>
+          )}
           <Box
-            mt="1"
+            color="gray.500"
             fontWeight="semibold"
-            as="h4"
-            lineHeight="tight"
-            isTruncated
+            letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+            ml="2"
           >
-            {launchPad.name}
+            {launchPad.attempted_launches} attempted &bull;{" "}
+            {launchPad.successful_launches} succeeded
           </Box>
-
-          <Text color="gray.500" fontSize="sm">
-            {launchPad.vehicles_launched.join(", ")}
-          </Text>
         </Box>
 
-        <Flex alignItems="center" marginLeft="auto" p="6">
-          <FavoriteButton
-            isFavorited={isPadFavorited}
-            onClick={(event) => {
-              setFavorite(event, siteId, isPadFavorited);
-            }}
-          />
-        </Flex>
-      </Flex>
+        <Box
+          mt="1"
+          fontWeight="semibold"
+          as="h4"
+          lineHeight="tight"
+          isTruncated
+        >
+          {launchPad.name}
+        </Box>
+
+        <Text color="gray.500" fontSize="sm">
+          {launchPad.vehicles_launched.join(", ")}
+        </Text>
+      </Box>
     </Box>
   );
 }
