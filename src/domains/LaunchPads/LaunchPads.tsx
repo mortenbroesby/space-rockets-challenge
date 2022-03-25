@@ -1,4 +1,4 @@
-import { Badge, Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import {
