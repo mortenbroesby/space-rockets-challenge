@@ -12,36 +12,31 @@ import {
   FavoritesDrawer,
 } from "../domains";
 import { FavoritesProvider } from "../infrastructure";
-import { ApplicationFallback } from "../components";
+import { ApplicationFallback, defaultErrorHandler } from "../components";
 import { NavBar } from "./NavBar";
 
 export function Application() {
   return (
-    <Router>
-      <FavoritesProvider>
-        <ChakraProvider>
-          <CSSReset />
-          <RootComponents />
-        </ChakraProvider>
-      </FavoritesProvider>
-    </Router>
+    <ChakraProvider>
+      <CSSReset />
+
+      <ErrorBoundary
+        FallbackComponent={ApplicationFallback}
+        onError={defaultErrorHandler}
+      >
+        <FavoritesProvider>
+          <DefaultPage />
+        </FavoritesProvider>
+      </ErrorBoundary>
+    </ChakraProvider>
   );
 }
 
-const errorHandler = (error: Error, info: { componentStack: string }) => {
-  console.warn("error: ", { error, info });
-};
-
-function RootComponents() {
+function DefaultPage() {
   return (
     <>
       <NavBar />
-      <ErrorBoundary
-        FallbackComponent={ApplicationFallback}
-        onError={errorHandler}
-      >
-        <AppRoutes />
-      </ErrorBoundary>
+      <AppRoutes />
       <FavoritesDrawer />
     </>
   );
@@ -49,12 +44,14 @@ function RootComponents() {
 
 function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/launches" element={<LaunchesPage />} />
-      <Route path="/launches/:launchId" element={<LaunchPage />} />
-      <Route path="/launch-pads" element={<LaunchPadsPage />} />
-      <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
-    </Routes>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/launches" element={<LaunchesPage />} />
+        <Route path="/launches/:launchId" element={<LaunchPage />} />
+        <Route path="/launch-pads" element={<LaunchPadsPage />} />
+        <Route path="/launch-pads/:launchPadId" element={<LaunchPadPage />} />
+      </Routes>
+    </Router>
   );
 }

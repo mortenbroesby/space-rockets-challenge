@@ -2,10 +2,10 @@ import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import {
-  PageFallback,
   Breadcrumbs,
   LoadMoreButton,
   FavoriteButton,
+  PageFallback,
 } from "../../components";
 import { useSpaceXPaginated, noop } from "../../utils";
 import { LaunchPad, useFavoriteContext } from "../../infrastructure";
