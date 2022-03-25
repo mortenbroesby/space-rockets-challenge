@@ -63,7 +63,7 @@ I've used my own storage adapter to persist data in the user's browser storage, 
 
 #### 🗂 Cache
 
-I got a bit side-tracked adding a ["Least Recently Used"](https://progressivecoder.com/lru-cache-implementation-using-javascript-linked-list-and-objects/#:~:text=LRU%20stands%20for%20Least%20Recently,is%20known%20as%20LRU%20Cache) in my Favorites storage implementation.
+I got a bit side-tracked adding a ["Least Recently Used Cache"](https://progressivecoder.com/lru-cache-implementation-using-javascript-linked-list-and-objects/#:~:text=LRU%20stands%20for%20Least%20Recently,is%20known%20as%20LRU%20Cache) in my Favorites storage implementation.
 
 That was mainly done for fun.
 
