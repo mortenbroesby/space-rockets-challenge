@@ -1,5 +1,6 @@
 import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
   Breadcrumbs,
@@ -9,6 +10,7 @@ import {
 } from "../../components";
 import { useSpaceXPaginated, noop } from "../../utils";
 import { LaunchPad, useFavoriteContext } from "../../infrastructure";
+import { useState } from "react";
 
 const PAGE_SIZE = 12;
 
@@ -17,6 +19,8 @@ interface LaunchPadBaseProps {
 }
 
 export function LaunchPadsPage() {
+  const [hasMoreData, setHasMoreData] = useState(true);
+
   const {
     data,
     error,
@@ -28,29 +32,46 @@ export function LaunchPadsPage() {
   });
 
   const safeData: LaunchPad[] = Array.isArray(data) ? data : [];
-  const gridContent = safeData
-    .flat()
-    .map((launchPad) => (
-      <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
-    ));
+
+  const fetchMoreData = () => {
+    setSize(size + 1).then((results: LaunchPad[][]) => {
+      const resultsHaveEntries = results[results.length - 1].length !== 0;
+      if (!resultsHaveEntries) {
+        setHasMoreData(false);
+      }
+    });
+  };
 
   return (
     <div>
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launch Pads" }]}
+        marginBottom={false}
       />
 
-      <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
-        {error && <PageFallback error={error} />}
-        {gridContent}
-      </SimpleGrid>
+      {error && <PageFallback error={error} />}
 
-      <LoadMoreButton
-        loadMore={() => setSize(size + 1)}
-        data={safeData}
-        pageSize={PAGE_SIZE}
-        isLoadingMore={isValidating}
-      />
+      <InfiniteScroll
+        dataLength={safeData.length}
+        next={() => fetchMoreData()}
+        hasMore={hasMoreData}
+        loader={
+          <LoadMoreButton
+            loadMore={() => fetchMoreData()}
+            data={safeData}
+            pageSize={PAGE_SIZE}
+            isLoadingMore={isValidating}
+          />
+        }
+        scrollableTarget="scrollableDiv"
+        scrollThreshold={0.9}
+      >
+        <SimpleGrid minChildWidth="350px" spacing="4" p={[2, null, 6]}>
+          {safeData.flat().map((launchPad) => (
+            <LaunchPadItem key={launchPad.site_id} launchPad={launchPad} />
+          ))}
+        </SimpleGrid>
+      </InfiniteScroll>
     </div>
   );
 }
