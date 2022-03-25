@@ -1,5 +1,4 @@
 import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
-import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
 import {
@@ -8,7 +7,12 @@ import {
   LoadMoreButton,
   FavoriteButton,
 } from "../../components";
-import { useSpaceXPaginated, noop, formatDate } from "../../utils";
+import {
+  useSpaceXPaginated,
+  noop,
+  formatDate,
+  formatTimeAgo,
+} from "../../utils";
 import { Launch, useFavoriteContext } from "../../infrastructure";
 
 const PAGE_SIZE = 12;
@@ -176,7 +180,7 @@ export function LaunchItem({ launch }: LaunchesBaseProps) {
             <Text fontSize="sm">{formatDate(launch_date_utc)} </Text>
 
             <Text color="gray.500" ml="2" fontSize="sm">
-              {timeAgo(launch_date_utc)}
+              {formatTimeAgo(launch_date_utc)}
             </Text>
           </Flex>
         </Box>

@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams, Link as RouterLink } from "react-router-dom";
-import { format as timeAgo } from "timeago.js";
 import { Watch, MapPin, Navigation, Layers } from "react-feather";
 import {
   Flex,
@@ -23,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 
 import { Launch, useFavoriteContext } from "../../infrastructure";
-import { useSpaceX, formatDateTime } from "../../utils";
+import { useSpaceX, formatDateTime, formatTimeAgo } from "../../utils";
 import { Error, Breadcrumbs, FavoriteButton } from "../../components";
 
 interface LaunchBaseProps {
@@ -204,7 +203,7 @@ function TimeAndLocation({ launch }: LaunchBaseProps) {
           </Tooltip>
         </StatNumber>
 
-        <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
+        <StatHelpText>{formatTimeAgo(launch.launch_date_utc)}</StatHelpText>
       </Stat>
 
       <Stat>
