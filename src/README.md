@@ -46,7 +46,7 @@ I got a bit side-tracked adding a ["Least Recently Used Cache"](https://progress
 
 That was mainly done for fun.
 
-In a production scenario, I would ensure I was aligned with the team and stakeholders before code of that nature.
+In a production scenario, I would ensure I was aligned with the team and stakeholders before adding functionality of that nature.
 
 ---
 
