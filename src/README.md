@@ -10,7 +10,7 @@ I am a strong believer in Team-driven development, and I'm used to adapt to what
 
 Early in my project inspection phase, I noticed that a range of packages were out of date. One notable example was Chakra-UI.
 
-I took the liberty of ["migrating to the latest version of Chakra"](https://chakra-ui.com/guides/migration) together with other NPM package version bumps.
+I took the liberty of updating Chakra, together with other NPM package version bumps.
 
 ---
 
